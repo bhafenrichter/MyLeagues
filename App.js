@@ -1,6 +1,8 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 
+import {EventBus, Events} from './utils/EventBus';
+
 export default function App() {
   return (
     <View style={styles.container}>
