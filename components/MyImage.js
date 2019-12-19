@@ -30,6 +30,7 @@ export class MyImage extends Component {
 			default: {
 				width: width,
 				height: height,
+				borderRadius: 15,
 			}
 		});
 		let imageUrl = '';
