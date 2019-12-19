@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Image, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import { Image, StyleSheet, TouchableOpacity } from 'react-native'
 
 import PropTypes from 'prop-types'; 
 
@@ -41,7 +41,6 @@ export class MyImage extends Component {
 			imageUrl = url;
 		}
 		
-		console.log(imageUrl);
 		if (onPressImage !== null) {
 			return (
 				<TouchableOpacity style={styles.container} onPress={onPressImage}>
