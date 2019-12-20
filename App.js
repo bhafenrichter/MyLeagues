@@ -1,10 +1,10 @@
 import React from 'react';
 import { StyleSheet, View } from 'react-native';
+import Navigation from './utils/Navigation';
 
 export default function App() {
   return (
-    <View style={styles.container}>
-    </View>
+    <Navigation />
   );
 }
 
