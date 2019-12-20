@@ -1,6 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
-import ProfilePicture from './ProfilePicture';
+import ProfilePicture from '../Common/ProfilePicture';
 
 import PropTypes from "prop-types";
 

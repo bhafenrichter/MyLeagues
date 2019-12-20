@@ -8,36 +8,34 @@ export class MyImage extends Component {
 	static propTypes = {
 		url: PropTypes.string,
 		onPressImage: PropTypes.func,
-		width: PropTypes.number,
-		height: PropTypes.number,
+		style: PropTypes.style
 	}
 
 	static defaultProps = {
 		onPressImage: null,
 		url: '',
-		width: 150,
-		height: 150,
 	}
 
 
 	render() {
-		const {url, onPressImage, width, height} = this.props;
+		const {url, onPressImage, style} = this.props;
+
 		const styles = StyleSheet.create({
 			container: {
 				flex: 1,
 				justifyContent: 'center',
 			},
 			default: {
-				width: width,
-				height: height,
 				borderRadius: 15,
+				width: 150,
+				height: 150,
 			}
 		});
 		let imageUrl = '';
 
 		// placeholder.com lets us use parameters to specify width and height of image returned
 		if (url === '') {
-			imageUrl = 'https://via.placeholder.com/' + width + 'x' + height;
+			imageUrl = 'https://via.placeholder.com/150x150';
 		} else {
 			imageUrl = url;
 		}
@@ -45,12 +43,12 @@ export class MyImage extends Component {
 		if (onPressImage !== null) {
 			return (
 				<TouchableOpacity style={styles.container} onPress={onPressImage}>
-					<Image style={styles.default} source={{uri: imageUrl}} />
+					<Image style={[styles.default, style]} source={{uri: imageUrl}} />
 				</TouchableOpacity>
 			)
 		} else {
 			return (
-				<Image style={styles.default} source={{uri: imageUrl}} />
+				<Image style={[styles.default, style]} source={{uri: imageUrl}} />
 			)
 		}
 
