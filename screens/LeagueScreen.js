@@ -1,0 +1,46 @@
+import React, { Component } from 'react'
+import { Text, View, StyleSheet, ScrollView, Image, Dimensions } from 'react-native'
+
+import RecentGames from '../components/Modules/RecentGames';
+
+export class LeagueScreen extends Component {
+  render() {
+    const {league} = this.props.navigation.state.params;
+
+    return (
+        <View style={styles.container}>
+          <Image source={{uri: 'https://cdn.pixabay.com/photo/2017/08/30/01/05/milky-way-2695569_960_720.jpg'}} style={styles.backgroundImage} blurRadius={2} />
+          <ScrollView 
+            showsVerticalScrollIndicator={false}>
+            <Text style={styles.headerText}>{league.name}</Text>
+            <RecentGames scrollType="vertical" />
+          </ScrollView>
+        </View>        
+     
+
+    )
+  }
+}
+
+export default LeagueScreen
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 25,
+  },
+  backgroundImage: {
+    opacity: 0.3,
+    width: Dimensions.get('window').width,
+    height: 200,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+  },
+  headerText: {
+    fontSize: 64,
+    marginTop: 20,
+    marginBottom: 40,
+    color: 'grey',
+  }
+});

@@ -12,6 +12,8 @@ export class RecentGames extends Component {
   }
 
   render() {
+    const {scrollType} = this.props;
+
     var recentGames = this.getRecentGames();
 
     return (
@@ -23,9 +25,9 @@ export class RecentGames extends Component {
         <View >
           <FlatList 
             data={recentGames} 
-            renderItem={({item}) => <GameTile game={item} />} 
+            renderItem={({item}) => <GameTile game={item} scrollType={scrollType} />} 
             keyExtractor={item => item.id}
-            horizontal={true}
+            horizontal={scrollType === 'horizontal'}
             ItemSeparatorComponent={ () => <View style={styles.separator} />}
             showsHorizontalScrollIndicator={false}
             />

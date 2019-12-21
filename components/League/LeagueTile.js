@@ -1,15 +1,16 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet, Dimensions, TouchableOpacity } from 'react-native'
+import { withNavigation } from 'react-navigation'
 
 import FriendsListed from './../Common/FriendsListed'
 import MyImage from '../Common/MyImage'
 
 export class LeagueTile extends Component {
   render() {
-    const {league} = this.props;
+    const {league, navigation} = this.props;
 
     return (
-      <TouchableOpacity>
+      <TouchableOpacity onPress={ () => navigation.navigate('League', {league: league})}>
         <View style={styles.container}>
           <View>
             <MyImage style={styles.image} />
@@ -24,7 +25,7 @@ export class LeagueTile extends Component {
   }
 }
 
-export default LeagueTile
+export default withNavigation(LeagueTile)
 
 const padding = 20;
 const styles = StyleSheet.create({

@@ -5,13 +5,21 @@ import GameTileRow from './GameTileRow';
 
 export class GameTile extends Component {
   render() {
-    const {game} = this.props;
+    const {game, scrollType} = this.props;
     return (
         <TouchableOpacity>
           <View style={styles.container}>
             <Text style={styles.league}>{game.league}</Text>
-            <GameTileRow name={game.homeTeam} score={game.homeScore} />
-            <GameTileRow name={game.awayTeam} score={game.awayScore} />
+            <GameTileRow 
+              isWin={game.homeScore > game.awayScore}
+              name={game.homeTeam} 
+              score={game.homeScore} 
+              showName={scrollType === 'vertical'} />
+            <GameTileRow 
+              isWin={game.awayScore > game.homeScore}
+              name={game.awayTeam} 
+              score={game.awayScore} 
+              showName={scrollType === 'vertical'} />
             <Text style={styles.league}>{game.createdOn}</Text>
           </View>
         </TouchableOpacity>
@@ -27,6 +35,9 @@ const styles = StyleSheet.create({
     borderRadius: 15,
     borderColor: 'black',
     borderWidth: 1,
+    flex: 1,
+    alignContent: "center",
+    backgroundColor: 'white',
   },
   league: {
     textAlign: "center",

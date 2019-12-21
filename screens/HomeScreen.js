@@ -16,7 +16,7 @@ class HomeScreen extends Component {
         <ScrollView 
           showsVerticalScrollIndicator={false}>
           <Text style={styles.headerText}>MyLeagues</Text>
-          <RecentGames />
+          <RecentGames scrollType="horizontal" />
           <LeagueList />
         </ScrollView>
       </View>

@@ -6,21 +6,25 @@ import PropTypes from "prop-types";
 
 
 const GameTileRow = (props) => {
-  const {name, score} = props;
-  if (name !== '') {
+  const {name, score, showName, isWin} = props;
+  if (showName) {
       return (
-        <View style={styles.row}>
+        <View style={[styles.base, styles.row]}>
           <ProfilePicture />
-          <Text style={[styles.text, styles.name]}>{name}</Text>
-          <Text style={styles.text}>{score}</Text>
+          <Text style={[styles.text, styles.name, isWin ? styles.win : styles.lose]}>
+            {name}
+            <Text style={[styles.text, styles.record, isWin ? styles.win : styles.lose]}>  8-9</Text>
+          </Text>
+          <Text style={[styles.text, styles.score, isWin ? styles.win : styles.lose]}>{score}</Text>
         </View>
       )
-  } else {
+  }
+  else {
     return (
-      <View style={styles.tile}>
+      <View style={[styles.base, styles.tile]}>
         <ProfilePicture />
         <Text></Text>
-        <Text style={styles.text}>{score}</Text>
+        <Text style={[styles.text, isWin ? styles.win : styles.lose]}>{score}</Text>
       </View>
     )
   }
@@ -28,6 +32,7 @@ const GameTileRow = (props) => {
 }
 
 GameTileRow.propTypes = {
+  scrollType: PropTypes.string.isRequired,
   score: PropTypes.number.isRequired,
   name: PropTypes.string,
 }
@@ -39,23 +44,36 @@ GameTileRow.defaultProps = {
 export default GameTileRow
 
 const styles = StyleSheet.create({
-  tile: {
+  base: {
     flexDirection: "row",
-    justifyContent: "space-evenly",
     padding: 5,
+    marginLeft: 15,
+    marginRight: 15,
+  },
+  tile: {
+    justifyContent: "space-evenly",
     minWidth: 110,
   },
   row: {
-    flexDirection: "row",
-    justifyContent: "space-evenly",
-    padding: 5,
-    alignSelf:'stretch',
-    width: 300,
   },
   text: {
     fontSize: 24,
   },
   name: {
-    
+    marginLeft: 10,
+  },
+  record: {
+    fontSize: 14,
+  },
+  score: {
+    position: "absolute",
+    right: 0,
+    alignSelf: "center",
+  },
+  win: {
+    color: 'black',
+  },
+  lose: {
+    color: 'grey',
   }
 })
