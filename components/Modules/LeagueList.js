@@ -27,7 +27,8 @@ export class LeagueList extends Component {
             data={leagues} 
             renderItem={({item}) => <LeagueTile league={item} />} 
             keyExtractor={item => item.id} 
-            scrollEnabled={false} />
+            scrollEnabled={false} 
+            />
         </SafeAreaView>
       </View>
     )

@@ -27,6 +27,7 @@ export class RecentGames extends Component {
             keyExtractor={item => item.id}
             horizontal={true}
             ItemSeparatorComponent={ () => <View style={styles.separator} />}
+            showsHorizontalScrollIndicator={false}
             />
         </View>
       </View>

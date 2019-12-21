@@ -13,7 +13,8 @@ class HomeScreen extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <ScrollView>
+        <ScrollView 
+          showsVerticalScrollIndicator={false}>
           <Text style={styles.headerText}>MyLeagues</Text>
           <RecentGames />
           <LeagueList />
