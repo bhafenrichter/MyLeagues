@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
-import { View, Text } from 'react-native';
+import { Text, View, StyleSheet, ScrollView } from 'react-native';
+import RecentGames from '../components/Modules/RecentGames';
+import LeagueList from '../components/Modules/LeagueList';
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -10,11 +12,28 @@ class HomeScreen extends Component {
 
   render() {
     return (
-      <View>
-        <Text> HomeScreen </Text>
+      <View style={styles.container}>
+        <ScrollView>
+          <Text style={styles.headerText}>MyLeagues</Text>
+          <RecentGames />
+          <LeagueList />
+        </ScrollView>
       </View>
     );
   }
 }
 
 export default HomeScreen;
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 15,
+  },
+  headerText: {
+    fontSize: 64,
+    marginTop: 20,
+    marginBottom: 40,
+    color: 'grey',
+  }
+});

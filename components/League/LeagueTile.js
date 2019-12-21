@@ -6,6 +6,8 @@ import MyImage from '../Common/MyImage'
 
 export class LeagueTile extends Component {
   render() {
+    const {league} = this.props;
+
     return (
       <TouchableOpacity>
         <View style={styles.container}>
@@ -13,8 +15,8 @@ export class LeagueTile extends Component {
             <MyImage style={styles.image} />
           </View>
           <View>
-            <Text style={styles.league}>Lorum Lipsem</Text>
-            <FriendsListed friendsList="Brandon, Brian, and 4 more..." />
+            <Text style={styles.league}>{league.name}</Text>
+            <FriendsListed friendsList={league.friends} />
           </View>
         </View>
       </TouchableOpacity>
@@ -31,13 +33,15 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     borderWidth: 1,
     padding: padding,
+    marginBottom: padding / 4,
+    marginTop: padding / 4,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    width: Dimensions.get('window').width - padding,
+    maxWidth: Dimensions.get('window').width - padding,
   },
   league: {
-    fontSize: 36,
+    fontSize: 24,
     marginBottom: 10,
   },
   image: {
