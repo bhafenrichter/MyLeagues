@@ -4,13 +4,24 @@ import { Text, View, StyleSheet, Button } from 'react-native'
 import Modal from "react-native-modal";
 import Score from '../Game/Score';
 import GameImpactRow from './GameImpactRow';
-import MyImage from '../Common/MyImage';
+
+import { EventBus, Events } from "./../../utils/EventBus";
 
 export class ViewGame extends Component {
 
   state = {
-    isVisible: true,
+    isVisible: false,
+    game: {},
   };
+
+  componentDidMount = ()  => {
+    EventBus.subscribe(Events.VIEW_GAME, (game) => {
+      this.setState({
+        isVisible: true,
+        game: game,
+      });
+    });
+  }
 
   closeModal = () => {
     this.setState({ isVisible: false });

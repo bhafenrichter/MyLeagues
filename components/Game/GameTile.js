@@ -2,12 +2,21 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 
 import GameTileRow from './GameTileRow';
+import { EventBus, Events } from "./../../utils/EventBus";
 
 export class GameTile extends Component {
+
+  componentDidMount() {
+  }
+
+  viewGame = (game) => {
+    EventBus.trigger(Events.VIEW_GAME, game);
+  }
+
   render() {
     const {game, scrollType} = this.props;
     return (
-        <TouchableOpacity>
+        <TouchableOpacity onPress={() => {this.viewGame(game)}}>
           <View style={styles.container}>
             <Text style={styles.league}>{game.league}</Text>
             <GameTileRow 
@@ -23,7 +32,6 @@ export class GameTile extends Component {
             <Text style={styles.league}>{game.createdOn}</Text>
           </View>
         </TouchableOpacity>
-        
     )
   }
 }
