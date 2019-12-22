@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { Text, View, StyleSheet, ScrollView, Image, Dimensions } from 'react-native'
 
 import RecentGames from '../components/Modules/RecentGames';
+import Standings from '../components/Modules/Standings';
 
 export class LeagueScreen extends Component {
   render() {
@@ -13,7 +14,13 @@ export class LeagueScreen extends Component {
           <ScrollView 
             showsVerticalScrollIndicator={false}>
             <Text style={styles.headerText}>{league.name}</Text>
-            <RecentGames scrollType="vertical" />
+            <View style={styles.module}>
+              <RecentGames scrollType="vertical" />
+            </View>
+
+            <View style={styles.module}>
+              <Standings />
+            </View>          
           </ScrollView>
         </View>        
      
@@ -27,7 +34,12 @@ export default LeagueScreen
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 25,
+    paddingLeft: 25,
+    paddingRight: 25,
+  },
+  module: {
+    marginTop: 20,
+    marginBottom: 40,
   },
   backgroundImage: {
     opacity: 0.3,
@@ -39,8 +51,10 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 64,
-    marginTop: 20,
-    marginBottom: 40,
     color: 'grey',
+  },
+  secondaryText: {
+    fontSize: 36,
+    marginBottom: 30,
   }
 });
