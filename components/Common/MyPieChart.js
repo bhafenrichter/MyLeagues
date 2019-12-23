@@ -27,12 +27,12 @@ const MyPieChart = (props) => {
     <View>
         <PieChart
           data={chartData}
-          width={300}
-          height={300}
+          width={250}
+          height={100}
           chartConfig={chartConfig}
           accessor="population"
           backgroundColor="transparent"
-          paddingLeft="15"
+          paddingLeft="0"
           absolute
           /> 
     </View>

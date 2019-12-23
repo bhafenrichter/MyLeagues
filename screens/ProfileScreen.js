@@ -25,9 +25,6 @@ export class ProfileScreen extends Component {
           <View>
             <RecentGames scrollType="horizontal" title="Your Games" />
           </View>
-          <View>
-            <MyPieChart />
-          </View>
         </ScrollView>        
       </View>
     )
@@ -52,5 +49,8 @@ const styles = StyleSheet.create({
   rankings: {
     paddingTop: 25,
     paddingBottom: 25,
+  },
+  matchup: {
+    flexDirection: 'row',
   }
 });
