@@ -4,8 +4,6 @@ import RecentGames from '../components/Modules/RecentGames';
 import LeagueList from '../components/Modules/LeagueList';
 import ViewGame from '../components/Modules/ViewGame';
 
-import { EventBus, Events } from "./../utils/EventBus";
-
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
@@ -20,7 +18,7 @@ class HomeScreen extends Component {
         <ScrollView 
           showsVerticalScrollIndicator={false}>
           <Text style={styles.headerText}>MyLeagues</Text>
-          <RecentGames scrollType="horizontal" />
+          <RecentGames scrollType="horizontal" title="Recent Games" />
           <LeagueList />
         </ScrollView>
       </View>

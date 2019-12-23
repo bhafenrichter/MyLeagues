@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
+import { withNavigation } from 'react-navigation'
+
 import StandingsRow from '../Standings/StandingsRow'
 import StandingsHeaderRow from '../Standings/StandingsHeaderRow'
 import PlusButton from "./../Common/PlusButton"

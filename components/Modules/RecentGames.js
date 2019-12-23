@@ -12,17 +12,17 @@ export class RecentGames extends Component {
   }
 
   render() {
-    const {scrollType} = this.props;
+    const {title, scrollType} = this.props;
 
     var recentGames = this.getRecentGames();
 
     return (
       <View style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerText}>Recent Games</Text>
+          <Text style={styles.headerText}>{title}</Text>
           <PlusButton onPress={() => {}} />
         </View>
-        <View >
+        <View>
           <FlatList 
             data={recentGames} 
             renderItem={({item}) => <GameTile game={item} scrollType={scrollType} />} 
@@ -53,6 +53,5 @@ const styles = StyleSheet.create({
   },
   container: {
     marginTop: 15,
-    flex: 1,
   }
 })

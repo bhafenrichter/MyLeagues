@@ -1,24 +1,30 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+import { withNavigation } from 'react-navigation'
+
 import ProfilePicture from '../Common/ProfilePicture'
+import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const StandingsRow = (props) => {
-  const {name, wins, losses} = props;
+  const {name, wins, losses, navigation} = props;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.profileContainer}>
-        <ProfilePicture />
-        <Text style={[styles.profileText, styles.text]}>{name}</Text>
-      </View>
+    <TouchableOpacity onPress={() => {navigation.navigate('Profile')}}>
+      <View style={styles.container}>
+        <View style={styles.profileContainer}>
+          <ProfilePicture />
+          <Text style={[styles.profileText, styles.text]}>{name}</Text>
+        </View>
 
-      <Text style={styles.text}>{wins}</Text>
-      <Text style={styles.text}>{losses}</Text>
-    </View>
+        <Text style={styles.text}>{wins}</Text>
+        <Text style={styles.text}>{losses}</Text>
+      </View>
+    </TouchableOpacity>
+    
   )
 }
 
-export default StandingsRow
+export default withNavigation(StandingsRow)
 
 const styles = StyleSheet.create({
   container: {
