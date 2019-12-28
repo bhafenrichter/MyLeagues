@@ -20,7 +20,7 @@ class AddGame extends Component {
   }
 
   closeModal = () => {
-    this.setState({ isVisible: false });
+    this.setState({ isModalVisible: false });
   }
 
   selectPlayer = (name, url) => {
@@ -42,7 +42,10 @@ class AddGame extends Component {
         opponentScore: score,
       });
     }
+  }
 
+  submitGame = () => {
+    this.closeModal();
   }
 
   render() {
@@ -73,7 +76,7 @@ class AddGame extends Component {
               
             </View>
             <View style={styles.footer}>
-              <Button onPress={this.closeModal} title="Close" style={styles.button} />
+              <Button onPress={this.submitGame} title="Submit" style={styles.button} />
             </View>
           </View>
         </Modal>
@@ -97,9 +100,10 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       justifyContent: 'space-around',
       height: 300,
+      alignItems: 'baseline',
     },
     footer: {
-
+      padding: 10,
     },
     text: {
       textAlign: 'center',
@@ -109,9 +113,18 @@ const styles = StyleSheet.create({
     textbox: {
       textAlign: 'center',
       fontSize: 36,
+      borderBottomColor: 'grey',
+      borderBottomWidth: StyleSheet.hairlineWidth,
+      width: 75,
+      flex: 1,
+      justifyContent: 'center',
+      alignSelf: 'center',
     },
     versus: {
       color: 'grey',
       textAlign: 'center',
+    },
+    button: {
+      borderRadius: 15,
     }
 });

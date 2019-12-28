@@ -49,6 +49,7 @@ export default ProfileIcon;
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'column',
+		padding: 10,
 	},
 	text: {
 		textAlign: 'center',

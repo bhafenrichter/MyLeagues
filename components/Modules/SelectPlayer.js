@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Modal } from 'react-native';
 import MyImage from '../Common/MyImage';
 import ProfileIcon from '../Common/ProfileIcon';
 import { ScrollView } from 'react-native-gesture-handler';
@@ -32,27 +32,21 @@ class SelectPlayer extends Component {
 
 		if (isVisible) {
 			return (
-				<View style={styles.absoluteContainer}>
-					<ScrollView horizontal={true} style={{height: 300}}>
-						<View style={styles.column}>
+				<View style={styles.modalContainer}>
+					<Modal style={styles.modal}>
+						<ScrollView contentContainerStyle={styles.scroll}>
 							<ProfileIcon callback={this.selectPlayer} />
 							<ProfileIcon callback={this.selectPlayer} />
-						</View>
-						<View style={styles.column}>
 							<ProfileIcon callback={this.selectPlayer} />
 							<ProfileIcon callback={this.selectPlayer} />
-						</View>
-						<View style={styles.column}>
 							<ProfileIcon callback={this.selectPlayer} />
 							<ProfileIcon callback={this.selectPlayer} />
-						</View>
-						<View style={styles.column}>
 							<ProfileIcon callback={this.selectPlayer} />
 							<ProfileIcon callback={this.selectPlayer} />
-						</View>
-					</ScrollView>
-				
+						</ScrollView>
+					</Modal>
 				</View>
+
 			);
 		} else {
 			return (
@@ -72,19 +66,23 @@ export default SelectPlayer;
 const styles = StyleSheet.create({
 	container: {
 		flexDirection: 'column',
+		padding: 10,
+	},
+	modalContainer: {
+		margin: 50,
+	},
+	scroll: {
+		flexWrap: "wrap",
+		flexDirection: 'row',
+		justifyContent: 'center',
+
 	},
 	text: {
 		textAlign: 'center',
-		padding: 10,
+		paddingTop: 20,
 		fontSize: 24,
 	},
-	absoluteContainer: {
-		position: "absolute",
-		top: 0,
-		left: 0,
-		width: '100%',
-		height: 300,
-		backgroundColor: 'white',
+	modal: {
 		flexDirection: 'column',
 		justifyContent: 'space-around',
 		alignItems: 'center',
