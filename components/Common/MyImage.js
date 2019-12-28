@@ -19,10 +19,8 @@ export class MyImage extends Component {
 
 	render() {
 		const {url, onPressImage, style} = this.props;
-
 		const styles = StyleSheet.create({
 			container: {
-				flex: 1,
 				justifyContent: 'center',
 			},
 			default: {
@@ -32,7 +30,6 @@ export class MyImage extends Component {
 			}
 		});
 		let imageUrl = '';
-
 		// placeholder.com lets us use parameters to specify width and height of image returned
 		if (url === '') {
 			imageUrl = 'https://via.placeholder.com/150x150';

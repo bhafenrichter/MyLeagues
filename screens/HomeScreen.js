@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, ScrollView } from 'react-native';
 import RecentGames from '../components/Modules/RecentGames';
 import LeagueList from '../components/Modules/LeagueList';
 import ViewGame from '../components/Modules/ViewGame';
+import AddGame from '../components/Modules/AddGame';
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -15,6 +16,7 @@ class HomeScreen extends Component {
     return (
       <View style={styles.container}>
         <ViewGame />
+        <AddGame />
         <ScrollView 
           showsVerticalScrollIndicator={false}>
           <Text style={styles.headerText}>MyLeagues</Text>
