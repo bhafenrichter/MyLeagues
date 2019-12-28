@@ -21,7 +21,7 @@ export default PlusButton
 
 const styles = StyleSheet.create({
   plus: {
-    fontSize: 42,
+    fontSize: 36,
     borderRadius: 36,
     borderWidth: 1,
     borderColor: 'black',

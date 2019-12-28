@@ -3,20 +3,27 @@ import { View, Text, StyleSheet, Button } from 'react-native';
 import Modal from "react-native-modal";
 
 import SelectPlayer from './SelectPlayer';
-import MyImage from './../Common/MyImage';
 import ProfileIcon from '../Common/ProfileIcon';
 import { TextInput } from 'react-native-gesture-handler';
+
+import {EventBus, Events} from './../../utils/EventBus';
 
 class AddGame extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        isModalVisible: true,
+        isModalVisible: false,
         isSelectPlayerVisible: false,
         selectedPlayer: '',
         userScore: '',
         opponentScore: '',
     };
+
+    EventBus.subscribe(Events.ADD_GAME, (args) => {
+      this.setState({
+        isModalVisible: true,
+      });
+    });
   }
 
   closeModal = () => {

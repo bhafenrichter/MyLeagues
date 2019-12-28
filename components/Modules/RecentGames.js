@@ -6,7 +6,17 @@ import PlusButton from "./../Common/PlusButton"
 
 import LeagueAPI from './../../Data/LeaguesAPI'
 
+import {EventBus, Events} from './../../utils/EventBus';
+
 export class RecentGames extends Component {
+  constructor(props) {
+    super(props);
+  }  
+
+  addGame() {
+    EventBus.trigger(Events.ADD_GAME, {});
+  }
+
   getRecentGames() {
     return LeagueAPI.getRecentGames(0);
   }
@@ -20,7 +30,7 @@ export class RecentGames extends Component {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>{title}</Text>
-          <PlusButton onPress={() => {}} />
+          <PlusButton onPress={() => this.addGame()} />
         </View>
         <View>
           <FlatList 

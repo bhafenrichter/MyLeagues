@@ -14,7 +14,8 @@ const emitter = new Emitter();
 
 // event types
 const Events = {
-	VIEW_GAME: 'View Game'
+	VIEW_GAME: 'View Game',
+	ADD_GAME: 'Add Game',
 };
 
 const EventBus = {
