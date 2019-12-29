@@ -7,6 +7,7 @@ import ProfileIcon from '../Common/ProfileIcon';
 import { TextInput } from 'react-native-gesture-handler';
 
 import {EventBus, Events} from './../../utils/EventBus';
+import LoadingButton from '../Common/LoadingButton';
 
 class AddGame extends Component {
   constructor(props) {
@@ -52,7 +53,11 @@ class AddGame extends Component {
   }
 
   submitGame = () => {
-    this.closeModal();
+    return new Promise((resolve, reject) => {
+      setTimeout(function() {
+        resolve('foo');
+      }, 300);
+    });
   }
 
   render() {
@@ -83,7 +88,7 @@ class AddGame extends Component {
               
             </View>
             <View style={styles.footer}>
-              <Button onPress={this.submitGame} title="Submit" style={styles.button} />
+              <LoadingButton onSubmit={this.submitGame} onComplete={this.closeModal} title="Create" />
             </View>
           </View>
         </Modal>
