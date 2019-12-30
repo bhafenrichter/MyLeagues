@@ -4,6 +4,7 @@ import Modal from "react-native-modal";
 import { TextInput } from 'react-native-gesture-handler';
 
 import LeaguesAPI from './../../Data/LeaguesAPI';
+import {EventBus, Events} from './../../utils/EventBus';
 
 import LoadingButton from './../Common/LoadingButton';
 import SelectLeagueType from './SelectLeagueType';
@@ -25,6 +26,7 @@ class AddLeague extends Component {
     const {id, name} = this.state;
     return LeaguesAPI.createLeague(id, name).then((response) => {
       console.log('league created!');
+      EventBus.trigger(Events.ADD_LEAGUE);
     });
   }
 

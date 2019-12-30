@@ -16,6 +16,7 @@ const emitter = new Emitter();
 const Events = {
 	VIEW_GAME: 'View Game',
 	ADD_GAME: 'Add Game',
+	ADD_LEAGUE: 'Add League',
 };
 
 const EventBus = {
