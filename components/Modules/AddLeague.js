@@ -13,9 +13,13 @@ class AddLeague extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      isModalVisible: true,
+      isModalVisible: false,
       isSelectPlayerVisible: false,
     };
+
+    EventBus.subscribe(Events.ADD_LEAGUE, () => {
+      this.setState({isModalVisible: true});
+    });
   }
 
   closeModal = () => {
@@ -26,7 +30,6 @@ class AddLeague extends Component {
     const {id, name} = this.state;
     return LeaguesAPI.createLeague(id, name).then((response) => {
       console.log('league created!');
-      EventBus.trigger(Events.ADD_LEAGUE);
     });
   }
 

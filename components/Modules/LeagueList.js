@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, FlatList, SafeAreaView } from 'react-native'
 import PlusButton from "./../Common/PlusButton"
 import LeagueTile from "./../League/LeagueTile"
 
+import {EventBus, Events} from './../../utils/EventBus';
 import LeagueAPI from './../../Data/LeaguesAPI'
 
 export class LeagueList extends Component {
@@ -19,7 +20,7 @@ export class LeagueList extends Component {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Your Leagues</Text>
-          <PlusButton onPress={() => {}} />
+          <PlusButton onPress={() => {EventBus.trigger(Events.ADD_LEAGUE);}} />
         </View>
         <SafeAreaView style={styles.leagueList}>
           <FlatList 
