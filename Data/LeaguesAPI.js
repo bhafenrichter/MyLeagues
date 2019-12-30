@@ -14,5 +14,17 @@ const services = {
 
     return JSON.parse(testData);
   },
+  getLeaguesForSearch: (search) => {
+    const testData = '[{ "id": "1", "name": "FIFA 20", "count": "12" }, { "id": "2", "name": "FIFA 19", "count": "20" }, { "id": "3", "name": "Madden 20", "count": "34" }, { "id": "4", "name": "Madden 19", "count": "2" } ]';
+    return JSON.parse(testData);
+  },
+  createLeague: (leaguetype, name) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(function() {
+        const testData = '{ "id": "50", "name": "FIFA 20", "count": "12" }';
+        resolve(JSON.parse(testData));
+      }, 300);
+    });
+  }
 }
 module.exports = services;

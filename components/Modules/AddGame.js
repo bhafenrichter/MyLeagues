@@ -13,11 +13,11 @@ class AddGame extends Component {
   constructor(props) {
     super(props);
     this.state = {
-        isModalVisible: false,
-        isSelectPlayerVisible: false,
-        selectedPlayer: '',
-        userScore: '',
-        opponentScore: '',
+      isModalVisible: false,
+      isSelectPlayerVisible: false,
+      selectedPlayer: '',
+      userScore: '',
+      opponentScore: '',
     };
 
     EventBus.subscribe(Events.ADD_GAME, (args) => {

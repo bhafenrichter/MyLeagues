@@ -4,6 +4,7 @@ import RecentGames from '../components/Modules/RecentGames';
 import LeagueList from '../components/Modules/LeagueList';
 import ViewGame from '../components/Modules/ViewGame';
 import AddGame from '../components/Modules/AddGame';
+import AddLeague from '../components/Modules/AddLeague';
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -17,6 +18,7 @@ class HomeScreen extends Component {
       <View style={styles.container}>
         <ViewGame />
         <AddGame />
+        <AddLeague />
         <ScrollView 
           showsVerticalScrollIndicator={false}>
           <Text style={styles.headerText}>MyLeagues</Text>
