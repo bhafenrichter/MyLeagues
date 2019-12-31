@@ -5,6 +5,7 @@ import LeagueList from '../components/Modules/LeagueList';
 import ViewGame from '../components/Modules/ViewGame';
 import AddGame from '../components/Modules/AddGame';
 import AddLeague from '../components/Modules/AddLeague';
+import SelectLeagueTypeSelector from '../components/Modules/SelectLeagueTypeSelector';
 
 class HomeScreen extends Component {
   constructor(props) {

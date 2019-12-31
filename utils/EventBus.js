@@ -17,6 +17,9 @@ const Events = {
 	VIEW_GAME: 'View Game',
 	ADD_GAME: 'Add Game',
 	ADD_LEAGUE: 'Add League',
+	SELECT_PLAYER: 'Select Player',
+	SELECT_LEAGUETYPE: 'Select League Type',
+	SELECTED_LEAGUETYPE: 'League Type Selected',
 };
 
 const EventBus = {

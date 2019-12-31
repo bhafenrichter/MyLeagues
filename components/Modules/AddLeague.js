@@ -8,22 +8,36 @@ import {EventBus, Events} from './../../utils/EventBus';
 
 import LoadingButton from './../Common/LoadingButton';
 import SelectLeagueType from './SelectLeagueType';
+import SelectLeagueTypeSelector from './SelectLeagueTypeSelector';
 
 class AddLeague extends Component {
   constructor(props) {
     super(props);
     this.state = {
       isModalVisible: false,
-      isSelectPlayerVisible: false,
+      isSelectingLeague: false,
     };
 
     EventBus.subscribe(Events.ADD_LEAGUE, () => {
       this.setState({isModalVisible: true});
     });
+
+    EventBus.subscribe(Events.SELECT_LEAGUETYPE, () => {
+      this.setState({isSelectingLeague: true});
+    });
+
+    EventBus.subscribe(Events.SELECTED_LEAGUETYPE, (league) => {
+      this.setState({isSelectingLeague: false});
+    });
   }
 
   closeModal = () => {
-    this.setState({ isModalVisible: false });
+    this.setState(
+      { 
+        isModalVisible: false,
+        isSelectingLeague: false,
+      
+      });
   }
 
   createLeague = () => {
@@ -34,7 +48,7 @@ class AddLeague extends Component {
   }
 
   render() {
-    const {isModalVisible} = this.state;
+    const {isModalVisible, isSelectingLeague} = this.state;
     return (
       <View style={styles.container}>
         <Modal
@@ -44,16 +58,19 @@ class AddLeague extends Component {
           swipeDirection={['up', 'down']}
           hideModalContentWhileAnimating={true}>
             <View style={styles.modal}>
-              <View style={styles.header}>
-                <Text style={styles.headerText}>Create League</Text>
+              <View style={(isSelectingLeague) ? styles.hidden : {}}>
+                <View style={styles.header}>
+                  <Text style={styles.headerText}>Create League</Text>
+                </View>
+                <View styles={styles.body}>
+                  <TextInput style={styles.inputText} placeholder={'League Name'} />
+                  <SelectLeagueType />
+                </View>
+                <View style={styles.footer}>
+                  <LoadingButton title="Create" onComplete={() => {this.closeModal();}} onSubmit={this.createLeague} />
+                </View>
               </View>
-              <View styles={styles.body}>
-                <TextInput style={styles.inputText} placeholder={'League Name'} />
-                <SelectLeagueType />
-              </View>
-              <View style={styles.footer}>
-                <LoadingButton title="Create" onComplete={() => {this.closeModal();}} onSubmit={this.createLeague} />
-              </View>
+              <SelectLeagueTypeSelector />
             </View>
         </Modal>
       </View>
@@ -67,6 +84,10 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   }, 
+  hidden: {
+    opacity: 0,
+    height: 0,
+  },
   modal: {
       backgroundColor: 'white',
       padding: 30,
