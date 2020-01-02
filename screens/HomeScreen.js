@@ -20,7 +20,7 @@ class HomeScreen extends Component {
         <ViewGame />
         <AddGame />
         <AddLeague />
-        <AddPlayer />
+        {/* <AddPlayer /> */}
         <ScrollView 
           showsVerticalScrollIndicator={false}>
           <Text style={styles.headerText}>MyLeagues</Text>
