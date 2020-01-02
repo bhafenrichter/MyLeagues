@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, StyleSheet } from 'react-native'
 import GameImpact from './GameImpact'
-import MyImage from '../Common/MyImage'
+import UniversalStyles from './../../utils/UniversalStyles';
 
 export class GameImpactRow extends Component {
   render() {
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     paddingBottom: 15,
   },
   header: {
-    color: 'grey',
+    color: UniversalStyles.colors.grey,
     fontSize: 24,
     textAlign: 'center',
     paddingBottom: 15,

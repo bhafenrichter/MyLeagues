@@ -3,6 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 
+import UniversalStyles from './../../utils/UniversalStyles'
 import MyImage from '../Common/MyImage'
 
 
@@ -80,10 +81,10 @@ const styles = StyleSheet.create({
   }, 
   emptyText: {
     fontSize: 18,
-    color: 'grey',
+    color: UniversalStyles.colors.grey,
   },
   subtext: {
     fontSize: 12,
-    color: 'grey',
+    color: UniversalStyles.colors.grey,
   },
 });

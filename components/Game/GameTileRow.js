@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
+
 import ProfilePicture from '../Common/ProfilePicture';
+import UniversalStyles from "./../../utils/UniversalStyles";
 
 import PropTypes from "prop-types";
 
@@ -74,6 +76,6 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   lose: {
-    color: 'grey',
+    color: UniversalStyles.colors.grey,
   }
 })

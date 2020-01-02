@@ -4,7 +4,7 @@ const colors = {
   grey: 'grey',
 }
 
-module.exports = StyleSheet.create({
+const styles = StyleSheet.create({
   input: {
     borderBottomColor: colors.grey,
     borderBottomWidth: StyleSheet.hairlineWidth,
@@ -13,3 +13,8 @@ module.exports = StyleSheet.create({
     fontSize: 18,
   }
 });
+
+module.exports = {
+  styles: styles,
+  colors: colors,
+};

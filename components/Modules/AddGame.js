@@ -5,6 +5,7 @@ import Modal from "react-native-modal";
 import SelectPlayer from './SelectPlayer';
 import ProfileIcon from '../Common/ProfileIcon';
 import { TextInput } from 'react-native-gesture-handler';
+import UniversalStyles from './../../utils/UniversalStyles';
 
 import {EventBus, Events} from './../../utils/EventBus';
 import LoadingButton from '../Common/LoadingButton';
@@ -76,14 +77,14 @@ class AddGame extends Component {
               <View>
                 <ProfileIcon size={125} showCaption={false} />
                 <Text style={styles.text}>HAF</Text>
-                <TextInput keyboardType="number-pad" value={userScore} onChangeText={(text) => {this.updateScore('user', text) }} style={styles.textbox} />
+                <TextInput keyboardType="number-pad" value={userScore} onChangeText={(text) => {this.updateScore('user', text) }} style={[UniversalStyles.styles.input, styles.textbox]} />
               </View>
               <View>
                 <Text style={styles.versus}>Vs.</Text>
               </View>
               <View>
                 <SelectPlayer callback={this.selectPlayer} isVisible={isSelectPlayerVisible} />
-                <TextInput keyboardType="number-pad" value={opponentScore} onChangeText={(text) => {this.updateScore('opponent', text) }} style={styles.textbox} />
+                <TextInput keyboardType="number-pad" value={opponentScore} onChangeText={(text) => {this.updateScore('opponent', text) }} style={[UniversalStyles.styles.input, styles.textbox]} />
               </View>
               
             </View>
@@ -125,7 +126,7 @@ const styles = StyleSheet.create({
     textbox: {
       textAlign: 'center',
       fontSize: 36,
-      borderBottomColor: 'grey',
+      borderBottomColor: UniversalStyles.colors.grey,
       borderBottomWidth: StyleSheet.hairlineWidth,
       width: 75,
       flex: 1,
@@ -133,7 +134,7 @@ const styles = StyleSheet.create({
       alignSelf: 'center',
     },
     versus: {
-      color: 'grey',
+      color: UniversalStyles.colors.grey,
       textAlign: 'center',
     },
     button: {

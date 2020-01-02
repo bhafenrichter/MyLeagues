@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, Button } from 'react-native'
 import Modal from "react-native-modal";
 import Score from '../Game/Score';
 import GameImpactRow from './GameImpactRow';
+import UniversalStyles from './../../utils/UniversalStyles';
 
 import { EventBus, Events } from "./../../utils/EventBus";
 
@@ -88,6 +89,6 @@ const styles = StyleSheet.create({
   }, 
   date: {
     fontSize: 12,
-    color: 'grey',
+    color: UniversalStyles.colors.grey,
   }
 });

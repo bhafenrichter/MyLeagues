@@ -36,7 +36,7 @@ export class CreateLeagueScreen extends Component {
       <KeyboardAvoidingView style={styles.container} enabled behavior="height">
         <UploadImage />
         <TextInput 
-          style={[styles.input, UniversalStyles.input]} 
+          style={[styles.input, UniversalStyles.styles.input]} 
           value={name} 
           placeholder="League Name"
           onChangeText={(name) => this.setState({name})} />

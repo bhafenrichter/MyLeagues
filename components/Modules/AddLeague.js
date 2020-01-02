@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
   header: {
     borderBottomWidth: StyleSheet.hairlineWidth,
-    borderColor: 'grey',
+    borderColor: UniversalStyles.colors.grey,
     padding: 10,
   }, 
   headerText: {

@@ -3,6 +3,8 @@ import { View, TouchableOpacity, StyleSheet } from 'react-native'
 import { Ionicons } from '@expo/vector-icons';
 import PropTypes from 'prop-types';
 
+import UniversalStyles from './../../utils/UniversalStyles';
+
 const BackButton = (props) => {
   const {onPress} = props;
   return (
@@ -23,7 +25,7 @@ export default BackButton
 const styles = StyleSheet.create({
   backButton: {
     borderRadius: 50,
-    backgroundColor: 'grey',
+    backgroundColor: UniversalStyles.colors.grey,
     width: 75,
     height: 75,
     alignItems: 'center',

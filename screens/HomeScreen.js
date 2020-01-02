@@ -5,7 +5,7 @@ import LeagueList from '../components/Modules/LeagueList';
 import ViewGame from '../components/Modules/ViewGame';
 import AddGame from '../components/Modules/AddGame';
 import AddLeague from '../components/Modules/AddLeague';
-import AddPlayer from '../components/Modules/AddPlayer';
+import UniversalStyles from './../utils/UniversalStyles';
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -43,6 +43,6 @@ const styles = StyleSheet.create({
     fontSize: 64,
     marginTop: 20,
     marginBottom: 40,
-    color: 'grey',
+    color: UniversalStyles.colors.grey,
   }
 });

@@ -3,6 +3,7 @@ import { Text, View, StyleSheet, ScrollView, Image, Dimensions } from 'react-nat
 
 import RecentGames from '../components/Modules/RecentGames';
 import Standings from '../components/Modules/Standings';
+import UniversalStyles from './../utils/UniversalStyles';
 
 export class LeagueScreen extends Component {
   render() {
@@ -51,7 +52,7 @@ const styles = StyleSheet.create({
   },
   headerText: {
     fontSize: 64,
-    color: 'grey',
+    color: UniversalStyles.colors.grey,
   },
   secondaryText: {
     fontSize: 36,

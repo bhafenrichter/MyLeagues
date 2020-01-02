@@ -1,6 +1,8 @@
 import React from 'react'
 import { View, Text, StyleSheet } from 'react-native'
 
+import UniversalStyles from "./../../utils/UniversalStyles";
+
 const BarRanking = () => {
   return (
     <View style={styles.container}>
@@ -28,11 +30,11 @@ const styles = StyleSheet.create({
     position: "absolute",
   }, 
   outer: {
-    backgroundColor: 'grey',
+    backgroundColor: UniversalStyles.colors.grey,
     width: '100%',
     height: 25,
     borderWidth: StyleSheet.hairlineWidth,
-    borderColor: 'grey',
+    borderColor: UniversalStyles.colors.grey,
   },
   inner: {
     backgroundColor: 'red',

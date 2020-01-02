@@ -59,7 +59,7 @@ class SelectLeagueType extends Component {
           !leagueSelected ? 
           (        
           <TextInput 
-            style={[UniversalStyles.input, styles.searchText]} 
+            style={[UniversalStyles.styles.input, styles.searchText]} 
             value={searchText} 
             placeholder="Search for League..."
             onChangeText={(text) => {this.search(text);}} />
@@ -108,7 +108,7 @@ const styles = StyleSheet.create({
   },
   searchText: {
     width: '50%',
-    borderBottomColor: 'grey',
+    borderBottomColor: UniversalStyles.colors.grey,
     borderBottomWidth: StyleSheet.hairlineWidth,
     fontSize: 18,
   },
