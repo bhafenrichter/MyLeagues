@@ -1,9 +1,10 @@
 import React from 'react'
-import { View, Text, StyleSheet } from 'react-native'
+import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
 import { withNavigation } from 'react-navigation'
 
+
 import ProfilePicture from '../Common/ProfilePicture'
-import { TouchableOpacity } from 'react-native-gesture-handler'
+import UniversalStyles from './../../utils/UniversalStyles';
 
 const StandingsRow = (props) => {
   const {name, wins, losses, navigation} = props;
@@ -30,7 +31,7 @@ const styles = StyleSheet.create({
   container: {
     padding: 10,
     borderTopWidth: StyleSheet.hairlineWidth,
-    borderColor: 'grey',
+    borderColor: UniversalStyles.colors.grey,
     flexDirection: "row",
     justifyContent: "space-between",
   }, 

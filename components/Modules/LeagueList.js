@@ -6,6 +6,7 @@ import LeagueTile from "./../League/LeagueTile"
 
 import {EventBus, Events} from './../../utils/EventBus';
 import LeagueAPI from './../../Data/LeaguesAPI'
+import { withNavigation } from 'react-navigation'
 
 export class LeagueList extends Component {
 
@@ -15,12 +16,12 @@ export class LeagueList extends Component {
 
   render() {
     const leagues = LeagueAPI.getLeagues(1);
-
+    const {navigation} = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Your Leagues</Text>
-          <PlusButton onPress={() => {EventBus.trigger(Events.ADD_LEAGUE);}} />
+          <PlusButton onPress={ () => navigation.navigate('CreateLeague', {})} />
         </View>
         <SafeAreaView style={styles.leagueList}>
           <FlatList 
@@ -36,7 +37,7 @@ export class LeagueList extends Component {
   }
 }
 
-export default LeagueList
+export default withNavigation(LeagueList)
 
 const styles = StyleSheet.create({
   leagueList: {
