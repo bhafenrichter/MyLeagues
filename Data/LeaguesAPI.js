@@ -1,6 +1,6 @@
 const services = {
   getLeagues: (userId) => {
-    const testData = '[{ "id": "0", "name": "Alpha Alpha Madden", "friends": "Brandon, Brian, and 4 more..." }, { "id": "1", "name": "Alpha Alpha Madden", "friends": "Brandon, Brian, and 4 more..." }, { "id": "2", "name": "Alpha Alpha FIFA", "friends": "Brandon, Brian, and 4 more..." }, { "id": "3", "name": "Alpha Alpha 2k", "friends": "Brandon, Brian, and 4 more..." } ]';
+    const testData = '[{ "id": "0", "name": "Alpha Alpha Madden", "friends": [{ "id": "1", "name": "Brandon Hafenrichter" }, { "id": "4", "name": "Connor Hafenrichter" }, { "id": "2", "name": "Brian Horncastle" }, { "id": "3", "name": "Graham Lehman" } ] }, { "id": "1", "name": "Alpha Alpha Madden", "friends": [{ "id": "1", "name": "Brandon Hafenrichter" }, { "id": "4", "name": "Connor Hafenrichter" }, { "id": "2", "name": "Brian Horncastle" }, { "id": "3", "name": "Graham Lehman" } ] }, { "id": "2", "name": "Alpha Alpha FIFA", "friends": [{ "id": "1", "name": "Brandon Hafenrichter" }, { "id": "4", "name": "Connor Hafenrichter" }, { "id": "2", "name": "Brian Horncastle" }, { "id": "3", "name": "Graham Lehman" } ] }, { "id": "3", "name": "Alpha Alpha 2k", "friends": [{ "id": "1", "name": "Brandon Hafenrichter" }, { "id": "4", "name": "Connor Hafenrichter" }, { "id": "2", "name": "Brian Horncastle" }, { "id": "3", "name": "Graham Lehman" } ] } ]';
 
     return JSON.parse(testData);
   },
@@ -18,7 +18,23 @@ const services = {
     const testData = '[{ "id": "1", "name": "FIFA 20", "count": "12" }, { "id": "2", "name": "FIFA 19", "count": "20" }, { "id": "3", "name": "Madden 20", "count": "34" }, { "id": "4", "name": "Madden 19", "count": "2" } ]';
     return JSON.parse(testData);
   },
+  getUsersForSearch: (search) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(function() {
+        const testData = '[{ "id": "1", "name": "Brandon Hafenrichter" }, { "id": "4", "name": "Connor Hafenrichter" }, { "id": "2", "name": "Brian Horncastle" }, { "id": "3", "name": "Graham Lehman" } ]';
+        resolve(JSON.parse(testData));
+      }, 300);
+    });
+  },
   createLeague: (leaguetype, name) => {
+    return new Promise((resolve, reject) => {
+      setTimeout(function() {
+        const testData = '{ "id": "50", "name": "FIFA 20", "count": "12" }';
+        resolve(JSON.parse(testData));
+      }, 300);
+    });
+  }, 
+  addUsersToLeague: (users, leagueId) => {
     return new Promise((resolve, reject) => {
       setTimeout(function() {
         const testData = '{ "id": "50", "name": "FIFA 20", "count": "12" }';

@@ -15,10 +15,12 @@ class LoadingButton extends Component {
     onSubmit: PropTypes.func.isRequired,
     onComplete: PropTypes.func.isRequired,
     title: PropTypes.string,
+    style: PropTypes.style,
   };
 
   static defaultProps = {
     title: '',
+    style: {},
   };
 
   onPress = () => {
@@ -35,11 +37,11 @@ class LoadingButton extends Component {
   }
 
   render() {
-    const {title} = this.props;
+    const {title, style} = this.props;
     const {isLoading} = this.state;
 
     return (
-      <TouchableOpacity style={styles.container} onPress={() => {this.onPress()}}>
+      <TouchableOpacity style={[styles.container, style]} onPress={() => {this.onPress()}}>
         {isLoading ? (
           <ActivityIndicator />
         ) : (

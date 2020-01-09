@@ -17,7 +17,7 @@ export class LeagueTile extends Component {
           </View>
           <View>
             <Text style={styles.league}>{league.name}</Text>
-            <FriendsListed friendsList={league.friends} />
+            <FriendsListed friends={league.friends} />
           </View>
         </View>
       </TouchableOpacity>
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   image: {
-    width: 72,
-    height: 72,
+    width: 64,
+    height: 64,
   }
 });

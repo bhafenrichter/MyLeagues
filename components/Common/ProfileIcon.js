@@ -23,7 +23,10 @@ class ProfileIcon extends Component {
 
 	selectProfile = (name, url) => {
 		const {callback} = this.props;
-		callback(name, url);
+		if (callback) {
+			callback(name, url);
+		}
+
 	}
 
 	render() {

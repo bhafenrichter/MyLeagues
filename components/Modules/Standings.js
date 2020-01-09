@@ -8,11 +8,13 @@ import PlusButton from "./../Common/PlusButton"
 
 export class Standings extends Component {
   render() {
+    const {navigation} = this.props;
+
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Standings</Text>
-          <PlusButton onPress={() => {}} />
+          <PlusButton onPress={() => {navigation.navigate('AddPlayer', {leagueId: 1})}} />
         </View>
         <StandingsHeaderRow />
         <StandingsRow name="B. Horncastle" wins="8" losses="7" />
@@ -25,7 +27,7 @@ export class Standings extends Component {
   }
 }
 
-export default Standings
+export default withNavigation(Standings)
 
 const styles = StyleSheet.create({
   container: {
