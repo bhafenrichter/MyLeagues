@@ -34,6 +34,7 @@ export class RecentGames extends Component {
         </View>
         <View>
           <FlatList 
+            style={styles.list}
             data={recentGames} 
             renderItem={({item}) => <GameTile game={item} scrollType={scrollType} />} 
             keyExtractor={item => item.id}
@@ -56,12 +57,15 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-between',
-    marginBottom: 30,
+    marginBottom: 20,
+    marginLeft: 10,
+  },
+  list: {
+    padding: 10,
   },
   headerText: {
     fontSize: 36,
   },
   container: {
-    marginTop: 15,
   }
 })

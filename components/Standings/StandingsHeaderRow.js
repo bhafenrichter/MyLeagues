@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
     width: 150,
   },
   text: {
-    fontSize: 21,
+    backgroundColor: 'red',
+    fontSize: 18,
   }
 });

@@ -16,7 +16,7 @@ export class Standings extends Component {
           <Text style={styles.headerText}>Standings</Text>
           <PlusButton onPress={() => {navigation.navigate('AddPlayer', {leagueId: 1})}} />
         </View>
-        <StandingsHeaderRow />
+        <StandingsRow name="" wins="W" losses="L" />
         <StandingsRow name="B. Horncastle" wins="8" losses="7" />
         <StandingsRow name="B. Hafenrichter" wins="3" losses="7" />
         <StandingsRow name="B. Haf" wins="3" losses="7" />

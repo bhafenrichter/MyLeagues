@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 
 import GameTileRow from './GameTileRow';
 import { EventBus, Events } from "./../../utils/EventBus";
-
+import UniversalStyles from "./../../utils/UniversalStyles";
 export class GameTile extends Component {
 
   componentDidMount() {
@@ -17,7 +17,7 @@ export class GameTile extends Component {
     const {game, scrollType} = this.props;
     return (
         <TouchableOpacity onPress={() => {this.viewGame(game)}}>
-          <View style={styles.container}>
+          <View style={[UniversalStyles.styles.card, styles.container]}>
             <Text style={styles.league}>{game.league}</Text>
             <GameTileRow 
               isWin={game.homeScore > game.awayScore}
@@ -41,10 +41,9 @@ export default GameTile
 const styles = StyleSheet.create({
   container: {
     borderRadius: 15,
-    borderColor: 'black',
-    borderWidth: 1,
     alignContent: "center",
     backgroundColor: 'white',
+    margin: 5,
   },
   league: {
     textAlign: "center",

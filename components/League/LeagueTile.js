@@ -4,6 +4,7 @@ import { withNavigation } from 'react-navigation'
 
 import FriendsListed from './../Common/FriendsListed'
 import MyImage from '../Common/MyImage'
+import UniversalStyles from "./../../utils/UniversalStyles";
 
 export class LeagueTile extends Component {
   render() {
@@ -11,13 +12,13 @@ export class LeagueTile extends Component {
 
     return (
       <TouchableOpacity onPress={ () => navigation.navigate('League', {league: league})}>
-        <View style={styles.container}>
+        <View style={[UniversalStyles.styles.card, styles.container]}>
           <View>
             <MyImage style={styles.image} />
           </View>
-          <View>
+          <View style={styles.information}>
             <Text style={styles.league}>{league.name}</Text>
-            <FriendsListed friends={league.friends} />
+            <FriendsListed friends={league.friends} imageSize="normal" />
           </View>
         </View>
       </TouchableOpacity>
@@ -30,23 +31,23 @@ export default withNavigation(LeagueTile)
 const padding = 20;
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'white',
     borderRadius: 15,
-    borderColor: 'black',
-    borderWidth: 1,
+    margin: 10,
     padding: padding,
-    marginBottom: padding / 4,
-    marginTop: padding / 4,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
-    maxWidth: Dimensions.get('window').width - padding,
   },
   league: {
-    fontSize: 24,
+    fontSize: 18,
     marginBottom: 10,
   },
   image: {
-    width: 64,
-    height: 64,
+    marginTop: 10,
+    width: 72,
+    height: 72,
+  },
+  information: {
   }
 });
