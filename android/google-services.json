@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "244445034918",
+    "firebase_url": "https://myleagues-59885.firebaseio.com",
+    "project_id": "myleagues-59885",
+    "storage_bucket": "myleagues-59885.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:244445034918:android:96ac24aedf8abe6881b767",
+        "android_client_info": {
+          "package_name": "com.bhafenrichter.myleagues"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "244445034918-rlot83j5rhpji4s5del8irha9mq84rv0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bhafenrichter.myleagues",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "244445034918-b2eqtc9qq10ev0aq5b41t2vplv2409rj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMY0chyshz5YTg14NndFoZub9p4vKgsyQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "244445034918-b2eqtc9qq10ev0aq5b41t2vplv2409rj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
