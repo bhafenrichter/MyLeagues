@@ -6,14 +6,27 @@ import ViewGame from '../components/Modules/ViewGame';
 import AddGame from '../components/Modules/AddGame';
 import UniversalStyles from './../utils/UniversalStyles';
 
+import firestore from '@react-native-firebase/firestore';
+
 class HomeScreen extends Component {
   constructor(props) {
     super(props);
     this.state = {
     };
+
+    
+  }
+
+  async test () {
+    const documentSnapshot = await firestore()
+      .collection('leagues')
+      .doc('VZutjbIzSm4L4wl5edwY')
+      .get();
+    console.log(documentSnapshot);
   }
 
   render() {
+    this.test();
     return (
       <View style={styles.container}>
         <ViewGame />
