@@ -18,7 +18,8 @@ export class LeagueTile extends Component {
           </View>
           <View style={styles.information}>
             <Text style={styles.league}>{league.name}</Text>
-            <FriendsListed friends={league.friends} imageSize="normal" />
+            <Text style={styles.subtype}>{league.subtype}</Text>
+            <FriendsListed friends={league.members} imageSize="normal" />
           </View>
         </View>
       </TouchableOpacity>

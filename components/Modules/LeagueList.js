@@ -4,18 +4,22 @@ import { Text, View, StyleSheet, FlatList, SafeAreaView } from 'react-native'
 import PlusButton from "./../Common/PlusButton"
 import LeagueTile from "./../League/LeagueTile"
 
-import {EventBus, Events} from './../../utils/EventBus';
 import LeagueAPI from './../../Data/LeaguesAPI'
 import { withNavigation } from 'react-navigation'
 
 export class LeagueList extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      leagues: [],
+    };
 
-  getLeagues() {
-    return LeagueAPI.getLeagues(0);
+    LeagueAPI.getLeagues(1).then((response) => {
+      this.setState({leagues: response});
+    });    
   }
-
   render() {
-    const leagues = LeagueAPI.getLeagues(1);
+    const {leagues} = this.state;
     const {navigation} = this.props;
     return (
       <View style={styles.container}>
@@ -24,13 +28,18 @@ export class LeagueList extends Component {
           <PlusButton onPress={ () => navigation.navigate('CreateLeague', {})} />
         </View>
         <SafeAreaView style={styles.leagueList}>
-          <FlatList 
-            style={styles.list} 
-            data={leagues} 
-            renderItem={({item}) => <LeagueTile league={item} />} 
-            keyExtractor={item => item.id} 
-            scrollEnabled={false} 
-            />
+          { leagues.length > 0 ? (
+            <FlatList 
+              style={styles.list} 
+              data={leagues} 
+              renderItem={({item}) => <LeagueTile league={item} />} 
+              keyExtractor={item => item.id} 
+              scrollEnabled={false} 
+              />
+          ) : (
+            <View></View>
+          )}
+
         </SafeAreaView>
       </View>
     )

@@ -1,8 +1,11 @@
-const services = {
-  getLeagues: (userId) => {
-    const testData = '[{ "id": "0", "name": "Alpha Alpha Madden", "friends": [{ "id": "1", "name": "Brandon Hafenrichter" }, { "id": "4", "name": "Connor Hafenrichter" }, { "id": "2", "name": "Brian Horncastle" }, { "id": "3", "name": "Graham Lehman" } ] }, { "id": "1", "name": "Alpha Alpha Madden", "friends": [{ "id": "1", "name": "Brandon Hafenrichter" }, { "id": "4", "name": "Connor Hafenrichter" }, { "id": "2", "name": "Brian Horncastle" }, { "id": "3", "name": "Graham Lehman" } ] }, { "id": "2", "name": "Alpha Alpha FIFA", "friends": [{ "id": "1", "name": "Brandon Hafenrichter" }, { "id": "4", "name": "Connor Hafenrichter" }, { "id": "2", "name": "Brian Horncastle" }, { "id": "3", "name": "Graham Lehman" } ] }, { "id": "3", "name": "Alpha Alpha 2k", "friends": [{ "id": "1", "name": "Brandon Hafenrichter" }, { "id": "4", "name": "Connor Hafenrichter" }, { "id": "2", "name": "Brian Horncastle" }, { "id": "3", "name": "Graham Lehman" } ] } ]';
+import firestore from '@react-native-firebase/firestore';
 
-    return JSON.parse(testData);
+const services = {
+  getLeagues: async (userId) => {      
+    const request = firestore()
+      .collection('leagues');
+    const response = await runQuery(request);
+    return response;
   },
   getLeague: (id) => {
     const testData = '';
@@ -41,6 +44,26 @@ const services = {
         resolve(JSON.parse(testData));
       }, 300);
     });
-  }
+  },
+  getUser: async (userId) => {
+    const request = firestore()
+      .collection('users')
+      .where('id', '==', userId);
+    
+    const response = runQuery(request);
+
+    return response;
+  },
 }
+
+const runQuery = async (snapshot) => {
+  let results = [];
+  return snapshot.get().then((response) => {
+      response.forEach(function(doc) {
+        results.push(doc._data);
+    });
+    return results;
+  });
+};
+
 module.exports = services;
