@@ -28,18 +28,13 @@ export class LeagueList extends Component {
           <PlusButton onPress={ () => navigation.navigate('CreateLeague', {})} />
         </View>
         <SafeAreaView style={styles.leagueList}>
-          { leagues.length > 0 ? (
-            <FlatList 
-              style={styles.list} 
-              data={leagues} 
-              renderItem={({item}) => <LeagueTile league={item} />} 
-              keyExtractor={item => item.id} 
-              scrollEnabled={false} 
-              />
-          ) : (
-            <View></View>
-          )}
-
+          <FlatList 
+            style={styles.list} 
+            data={leagues} 
+            renderItem={({item}) => <LeagueTile league={item} />} 
+            keyExtractor={item => item.id} 
+            scrollEnabled={false} 
+            />
         </SafeAreaView>
       </View>
     )

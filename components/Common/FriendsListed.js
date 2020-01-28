@@ -12,11 +12,29 @@ const FriendsListed = (props) => {
   let friendsList = '';
   let profilePictures = [];
 
+  const styles = StyleSheet.create({
+    container: {
+      flexDirection: 'row',
+      marginTop: 10,
+    },
+    pictures: {
+      flexDirection: 'row',
+    },
+    picture: {
+    },
+    textWrapper: {
+      marginLeft: friends.length * 20,
+    },
+    text: {
+      fontSize: 10,
+    }
+  });
+
   if (friends.length > 0) {
     for (var i = 0; i < NAMES_IN_LIST; i++) {
       if (friends.length > i) {
-        friendsListed.push(friends[i].name.split(' ')[0]);
-        profilePictures.push(<ProfilePicture style={{position: 'absolute', top: 0, left: i * 15,}} />);
+        friendsListed.push(friends[i].firstName);
+        profilePictures.push(<ProfilePicture style={{position: 'absolute', top: 0, left: i * 15, width: 20, height: 20, }} />);
       }      
     }
   }
@@ -47,26 +65,3 @@ FriendsListed.defaultProps = {
 
 export default FriendsListed
 
-
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'baseline',
-    justifyContent: 'center',
-  },
-  pictures: {
-    flexDirection: 'row',
-    width: 45,
-    height: 20,
-    marginRight: 10,
-    marginTop: 10,
-  },
-  picture: {
-  },
-  textWrapper: {
-    marginLeft: 15,
-  },
-  text: {
-    fontSize: 10,
-  }
-});

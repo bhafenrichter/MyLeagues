@@ -19,7 +19,7 @@ export class LeagueTile extends Component {
           <View style={styles.information}>
             <Text style={styles.league}>{league.name}</Text>
             <Text style={styles.subtype}>{league.subtype}</Text>
-            <FriendsListed friends={league.members} imageSize="normal" />
+            <FriendsListed friends={league.members} />
           </View>
         </View>
       </TouchableOpacity>
@@ -38,11 +38,10 @@ const styles = StyleSheet.create({
     padding: padding,
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'flex-start',
   },
   league: {
     fontSize: 18,
-    marginBottom: 10,
   },
   image: {
     marginTop: 10,
@@ -50,5 +49,11 @@ const styles = StyleSheet.create({
     height: 72,
   },
   information: {
+    position: "relative",
+    marginLeft: 20,
+  },
+  subtype: {
+    fontSize: 12,
+    color: UniversalStyles.colors.grey,
   }
 });

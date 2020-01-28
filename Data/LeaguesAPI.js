@@ -1,12 +1,45 @@
 import firestore from '@react-native-firebase/firestore';
 
 const services = {
-  getLeagues: async (userId) => {      
+  getLeagues: async (userId) => {  
     const request = firestore()
       .collection('leagues');
-    const response = await runQuery(request);
-    return response;
+
+    return request.get().then((response) => {
+      let leagues = [];    
+      response.forEach((doc) => {
+        const league = doc;
+        leagues.push(league);
+      });
+      return leagues;
+    }).then((leagues) => {
+      // grab the members subcollection
+      let promises = [];
+      leagues.forEach((league) => {
+        promises.push( new Promise (function (resolve, reject) {
+          league.ref.collection('members').get().then((subcollection) => {
+            const members = [];
+            subcollection.forEach(function (member) {
+              members.push(member.data());
+            });
+            resolve(members);
+          });
+        }));
+      });
+
+      return Promise.all(promises).then((results) => {
+        for (var i = 0; i < results.length; i++) {
+          leagues[i] = leagues[i].data();
+          leagues[i].members = results[i];
+        }
+        return leagues;
+      });
+    }).then((results) => {
+      console.log(results);
+      return results;
+    });
   },
+  
   getLeague: (id) => {
     const testData = '';
 
@@ -55,15 +88,5 @@ const services = {
     return response;
   },
 }
-
-const runQuery = async (snapshot) => {
-  let results = [];
-  return snapshot.get().then((response) => {
-      response.forEach(function(doc) {
-        results.push(doc._data);
-    });
-    return results;
-  });
-};
 
 module.exports = services;
