@@ -4,23 +4,17 @@ import { Text, View, StyleSheet, FlatList, SafeAreaView } from 'react-native'
 import PlusButton from "./../Common/PlusButton"
 import LeagueTile from "./../League/LeagueTile"
 
-import LeagueAPI from './../../Data/LeaguesAPI'
 import { withNavigation } from 'react-navigation'
 
 export class LeagueList extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      leagues: [],
     };
-
-    LeagueAPI.getLeagues(1).then((response) => {
-      this.setState({leagues: response});
-    });    
   }
+
   render() {
-    const {leagues} = this.state;
-    const {navigation} = this.props;
+    const {navigation, leagues} = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
