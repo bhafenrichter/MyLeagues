@@ -1,7 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 
 const services = {
-  getLeagues: async (userId) => {  
+  getLeagues: async (userId) => {
     const request = firestore()
       .collection('leagues');
 

@@ -7,6 +7,7 @@ import AddGame from '../components/Modules/AddGame';
 
 import UniversalStyles from './../utils/UniversalStyles';
 import LeagueAPI from './../Data/LeaguesAPI';
+import CacheHelper from './../utils/CacheHelper';
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -15,13 +16,25 @@ class HomeScreen extends Component {
       refreshing: false,
       leagues: [],
     };
-    LeagueAPI.getLeagues(1).then((response) => {
-      this.setState({leagues: response});
-    }); 
+
+    CacheHelper.get(CacheHelper.LEAGUES).then((cachedLeagues) => {
+      if (cachedLeagues) {
+        this.setState({leagues: cachedLeagues});
+      } else {
+        LeagueAPI.getLeagues(1).then((response) => {
+          CacheHelper.set(CacheHelper.LEAGUES, JSON.stringify(response));
+          this.setState({leagues: response});
+        }); 
+      }
+    });
+
+    
+    
   }
 
   onRefresh = () => {
     LeagueAPI.getLeagues(1).then((response) => {
+      CacheHelper.set(CacheHelper.LEAGUES, response);
       this.setState({
         leagues: response,
       });
