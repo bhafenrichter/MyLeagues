@@ -22,9 +22,7 @@ export class RecentGames extends Component {
   }
 
   render() {
-    const {title, scrollType} = this.props;
-
-    var recentGames = this.getRecentGames();
+    const {games, title, scrollType} = this.props;
 
     return (
       <View style={styles.container}>
@@ -35,7 +33,7 @@ export class RecentGames extends Component {
         <View>
           <FlatList 
             style={styles.list}
-            data={recentGames} 
+            data={games} 
             renderItem={({item}) => <GameTile game={item} scrollType={scrollType} />} 
             keyExtractor={item => item.id}
             horizontal={scrollType === 'horizontal'}

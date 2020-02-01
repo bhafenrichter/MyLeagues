@@ -2,6 +2,7 @@ import {AsyncStorage} from 'react-native';
 
 export default {
   LEAGUES: 'leagues',
+  GAMES: 'games',
 
   get: async (key) => {
     try {
@@ -16,7 +17,7 @@ export default {
 
   set: async (key, value) => {
     try {
-      await AsyncStorage.setItem(key, value);
+      await AsyncStorage.setItem(key, JSON.stringify(value));
     } catch (error) {
       // Error saving data
     }

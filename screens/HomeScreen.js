@@ -22,14 +22,11 @@ class HomeScreen extends Component {
         this.setState({leagues: cachedLeagues});
       } else {
         LeagueAPI.getLeagues(1).then((response) => {
-          CacheHelper.set(CacheHelper.LEAGUES, JSON.stringify(response));
+          CacheHelper.set(CacheHelper.LEAGUES, response);
           this.setState({leagues: response});
         }); 
       }
     });
-
-    
-    
   }
 
   onRefresh = () => {
