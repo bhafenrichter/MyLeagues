@@ -8,6 +8,7 @@ import AddGame from '../components/Modules/AddGame';
 import UniversalStyles from './../utils/UniversalStyles';
 import LeagueAPI from './../Data/LeaguesAPI';
 import CacheHelper from './../utils/CacheHelper';
+import Utils from './../utils/Utils';
 
 class HomeScreen extends Component {
   constructor(props) {
@@ -19,19 +20,8 @@ class HomeScreen extends Component {
     };
 
     // get the current user
-    CacheHelper.get(CacheHelper.CURRENTUSER).then((cachedUser) => {
-      if (cachedUser) {
-        this.setState({currentUser: cachedUser});
-        return cachedUser;
-      } else {
-        return LeagueAPI.getUser('oeCzlQS1DUSlfqai4HAP').then((response) => {
-          console.log(response.data());
-          CacheHelper.set(CacheHelper.CURRENTUSER, response.data());
-          this.setState({currentUser: response});
-          return response;
-        }); 
-      }
-    }).then((user) => {
+    Utils.getCurrentUser().then((user) => {
+      this.setState({currentUser: user});
       // get the current user's leagues
       CacheHelper.get(CacheHelper.LEAGUES).then((cachedLeagues) => {
         if (cachedLeagues) {
