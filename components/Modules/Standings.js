@@ -23,6 +23,7 @@ export class Standings extends Component {
         <StandingsHeaderRow name="" wins="W" losses="L" />
         <FlatList 
           data={members}
+          keyExtractor={item => item.id} 
           renderItem={({item}) => 
             <StandingsRow name={Utils.getDisplayName(item.firstName, item.lastName)} wins={item.wins} losses={item.losses} />} 
           />

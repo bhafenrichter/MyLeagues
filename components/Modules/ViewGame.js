@@ -7,6 +7,7 @@ import GameImpactRow from './GameImpactRow';
 import UniversalStyles from './../../utils/UniversalStyles';
 
 import { EventBus, Events } from "./../../utils/EventBus";
+import Utils from './../../utils/Utils';
 
 export class ViewGame extends Component {
 
@@ -29,8 +30,12 @@ export class ViewGame extends Component {
   }
 
   render() {
-    const {isVisible} = this.state;
+    const {isVisible, game} = this.state;
 
+    if (!game) {
+      return <View></View>
+    }
+    
     return (
       <View style={styles.container}>
         <Modal 
@@ -41,12 +46,12 @@ export class ViewGame extends Component {
           hideModalContentWhileAnimating={true}>
           <View style={styles.modal}>
             <View style={styles.header}>
-              <Score user="HORN" score="50" record="8-8" />
+              <Score user={game.awayName} score={game.awayScore} record={game.awayRecord} />
               <View style={styles.details}>
                 <Text style={styles.versus}>Vs.</Text>
-                <Text style={styles.date}>4/10/2019</Text>
+                <Text style={styles.date}>{Utils.getFirebaseDate(game.playedOn)}</Text>
               </View>
-              <Score user="HAF" score="52" record="8-8" />
+              <Score user={game.homeName} score={game.homeScore} record={game.homeRecord} />
             </View>
             <GameImpactRow />
             <GameImpactRow />
