@@ -15,17 +15,34 @@ class HomeScreen extends Component {
     this.state = {
       refreshing: false,
       leagues: [],
+      currentUser: {},
     };
 
-    CacheHelper.get(CacheHelper.LEAGUES).then((cachedLeagues) => {
-      if (cachedLeagues) {
-        this.setState({leagues: cachedLeagues});
+    // get the current user
+    CacheHelper.get(CacheHelper.CURRENTUSER).then((cachedUser) => {
+      if (cachedUser) {
+        this.setState({currentUser: cachedUser});
+        return cachedUser;
       } else {
-        LeagueAPI.getLeagues(1).then((response) => {
-          CacheHelper.set(CacheHelper.LEAGUES, response);
-          this.setState({leagues: response});
+        return LeagueAPI.getUser('oeCzlQS1DUSlfqai4HAP').then((response) => {
+          console.log(response.data());
+          CacheHelper.set(CacheHelper.CURRENTUSER, response.data());
+          this.setState({currentUser: response});
+          return response;
         }); 
       }
+    }).then((user) => {
+      // get the current user's leagues
+      CacheHelper.get(CacheHelper.LEAGUES).then((cachedLeagues) => {
+        if (cachedLeagues) {
+          this.setState({leagues: cachedLeagues});
+        } else {
+          LeagueAPI.getLeagues(user.id).then((response) => {
+            CacheHelper.set(CacheHelper.LEAGUES, response);
+            this.setState({leagues: response});
+          }); 
+        }
+      });
     });
   }
 

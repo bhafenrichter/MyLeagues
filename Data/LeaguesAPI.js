@@ -100,13 +100,9 @@ const services = {
     });
   },
   getUser: async (userId) => {
-    const request = firestore()
+    return firestore()
       .collection('users')
-      .where('id', '==', userId);
-    
-    const response = runQuery(request);
-
-    return response;
+      .doc('oeCzlQS1DUSlfqai4HAP').get();
   },
 }
 

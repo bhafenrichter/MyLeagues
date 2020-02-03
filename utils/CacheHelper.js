@@ -3,6 +3,7 @@ import {AsyncStorage} from 'react-native';
 export default {
   LEAGUES: 'leagues',
   GAMES: 'games',
+  CURRENTUSER: 'current_user',
 
   get: async (key) => {
     try {
