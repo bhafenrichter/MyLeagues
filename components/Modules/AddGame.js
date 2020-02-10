@@ -8,7 +8,11 @@ import { TextInput } from 'react-native-gesture-handler';
 import UniversalStyles from './../../utils/UniversalStyles';
 
 import {EventBus, Events} from './../../utils/EventBus';
+import Utils from './../../utils/Utils';
+
 import LoadingButton from '../Common/LoadingButton';
+
+import { withNavigation } from 'react-navigation'
 
 class AddGame extends Component {
   constructor(props) {
@@ -19,11 +23,13 @@ class AddGame extends Component {
       selectedPlayer: '',
       userScore: '',
       opponentScore: '',
+      leagueUsers: [],
     };
 
     EventBus.subscribe(Events.ADD_GAME, (args) => {
+      const {navigation} = this.props;
       this.setState({
-        isModalVisible: true,
+        leagueUsers: args,
       });
     });
   }
@@ -62,8 +68,8 @@ class AddGame extends Component {
   }
 
   render() {
-    const {isModalVisible, isSelectPlayerVisible, userScore, opponentScore} = this.state;
-
+    const {isModalVisible, isSelectPlayerVisible, userScore, opponentScore, leagueUsers} = this.state;
+    const {currentUser} = this.props;
     return (
       <View style={styles.container}>
         <Modal
@@ -76,14 +82,14 @@ class AddGame extends Component {
             <View style={styles.header}>
               <View>
                 <ProfileIcon size={125} showCaption={false} />
-                <Text style={styles.text}>HAF</Text>
+                <Text style={styles.text}>{Utils.getDisplayName(currentUser.firstName, currentUser.lastName)}</Text>
                 <TextInput keyboardType="number-pad" value={userScore} onChangeText={(text) => {this.updateScore('user', text) }} style={[UniversalStyles.styles.input, styles.textbox]} />
               </View>
               <View>
                 <Text style={styles.versus}>Vs.</Text>
               </View>
               <View>
-                <SelectPlayer callback={this.selectPlayer} isVisible={isSelectPlayerVisible} />
+                <SelectPlayer callback={this.selectPlayer} isVisible={isSelectPlayerVisible} players={leagueUsers} />
                 <TextInput keyboardType="number-pad" value={opponentScore} onChangeText={(text) => {this.updateScore('opponent', text) }} style={[UniversalStyles.styles.input, styles.textbox]} />
               </View>
               

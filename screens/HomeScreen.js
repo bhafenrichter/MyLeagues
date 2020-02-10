@@ -46,13 +46,11 @@ class HomeScreen extends Component {
   }
 
   render() {
-    const {leagues, refreshing} = this.state;
+    const {leagues, refreshing, currentUser} = this.state;
 
     return (
       <SafeAreaView style={styles.container}>
         <ViewGame />
-        <AddGame />
-        {/* <AddPlayer /> */}
         <ScrollView 
           showsVerticalScrollIndicator={false}
           refreshControl={

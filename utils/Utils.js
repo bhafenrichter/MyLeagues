@@ -3,7 +3,10 @@ import LeagueAPI from './../Data/LeaguesAPI';
 
 export default {
   getDisplayName: (firstName, lastName) => {
-    return firstName[0] + '. ' + lastName;
+    if (firstName && lastName) {
+      return firstName.substring(0,1) + '. ' + lastName;
+    }
+    return '';
   },
   getFirebaseDate(date) {
     return date ? new Date(date._seconds * 1000).toLocaleDateString() : new Date().toLocaleDateString();

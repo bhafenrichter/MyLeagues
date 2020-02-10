@@ -30,16 +30,16 @@ class ProfileIcon extends Component {
 	}
 
 	render() {
-		const {size, showCaption} = this.props;
+		const {size, showCaption, name} = this.props;
 		const player = {
-			name: 'HAF',
+			name: name ? name : 'no name',
 			url: 'https://i.pravatar.cc/36?img=1',
 		}
 		return (
 			<TouchableOpacity style={styles.container} onPress={() => {this.selectProfile(player.name, player.url)}}>
 				<ProfilePicture style={{width: size, height: size}} />
 				{showCaption ? 
-					(<Text style={styles.text}>HAF</Text>) : (<View></View>)
+					(<Text style={styles.text}>{name}</Text>) : (<View></View>)
 				}
 				
 			</TouchableOpacity>

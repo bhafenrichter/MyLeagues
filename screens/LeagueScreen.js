@@ -59,7 +59,7 @@ export class LeagueScreen extends Component {
             showsVerticalScrollIndicator={false}>
             <Text style={styles.headerText}>{league.name}</Text>
             <View style={styles.module}>
-              <RecentGames games={games} scrollType="vertical" title="Recent Games" />
+              <RecentGames games={games} leagueUsers={league.members} scrollType="vertical" title="Recent Games" />
             </View>
 
             <View style={styles.module}>

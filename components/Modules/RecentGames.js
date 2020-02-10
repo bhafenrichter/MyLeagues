@@ -4,9 +4,8 @@ import { Text, View, StyleSheet, FlatList } from 'react-native'
 import GameTile from './../Game/GameTile'
 import PlusButton from "./../Common/PlusButton"
 
-import LeagueAPI from './../../Data/LeaguesAPI'
-
-import {EventBus, Events} from './../../utils/EventBus';
+import { withNavigation } from 'react-navigation'
+import Utils from './../../utils/Utils';
 
 export class RecentGames extends Component {
   constructor(props) {
@@ -14,11 +13,8 @@ export class RecentGames extends Component {
   }  
 
   addGame() {
-    EventBus.trigger(Events.ADD_GAME, {});
-  }
-
-  getRecentGames() {
-    return LeagueAPI.getRecentGames(0);
+    const {leagueUsers, navigation} = this.props;
+    navigation.navigate('AddGame', {members: leagueUsers});
   }
 
   render() {
@@ -46,7 +42,7 @@ export class RecentGames extends Component {
   }
 }
 
-export default RecentGames
+export default withNavigation(RecentGames)
 
 const styles = StyleSheet.create({
   separator: {
