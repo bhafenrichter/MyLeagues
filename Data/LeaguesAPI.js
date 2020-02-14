@@ -102,8 +102,33 @@ const services = {
   getUser: async (userId) => {
     return firestore()
       .collection('users')
-      .doc('oeCzlQS1DUSlfqai4HAP').get();
+      .doc(userId).get();
   },
+  // takes in a facebook user
+  createUser: async (user) => {
+    var newUser = {
+      firstName: user.first_name,
+      lastName: user.last_name,
+      profilePicture: user.picture ? user.picture.data.url : '',
+      joinedOn: new Date(),
+    };
+  
+    return await createQuery('users', user.id, newUser);
+  }
+}
+
+createQuery = async (collection, id, obj) => {
+  firestore().collection(collection)
+    .doc(id)
+    .set(obj)
+    .then(function(doc) {
+        console.log("Document successfully written!");
+        return doc;
+    })
+    .catch(function(error) {
+        console.error("Error writing document: ", error);
+        return null;
+    });
 }
 
 module.exports = services;

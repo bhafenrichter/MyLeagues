@@ -5,7 +5,9 @@ import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { firebase } from '@react-native-firebase/auth';
 
 import { withNavigation } from 'react-navigation';
+import LeaguesAPI from './../Data/LeaguesAPI';
 import MyImage from '../components/Common/MyImage';
+import CacheHelper from '../utils/CacheHelper';
 
 export class LoginScreen extends Component {
 
@@ -35,10 +37,22 @@ export class LoginScreen extends Component {
    const credential = firebase.auth.FacebookAuthProvider.credential(token.accessToken);
 
    // login to firebase
-   await firebase.auth().signInWithCredential(credential);
-   console.log(credential);
+   const firebaseResult = await firebase.auth().signInWithCredential(credential);
+   
+   // if the user previously existed, retrieve the user
+   let myLeagueUser = await LeaguesAPI.getUser(firebaseResult.additionalUserInfo.profile.id);
+   myLeagueUser = myLeagueUser ? myLeagueUser.data() : null;
+
+   // if user is new, create a new account
+   if (!myLeagueUser) {
+     myLeagueUser = await LeaguesAPI.createUser(firebaseResult.additionalUserInfo.profile);
+   }
+
+   // set the user in the storage
+   await CacheHelper.set(CacheHelper.CURRENTUSER, myLeagueUser);
 
    navigation.navigate('Home', {});
+
  }
 
   render() {

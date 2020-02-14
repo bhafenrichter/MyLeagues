@@ -15,12 +15,14 @@ export default {
     return CacheHelper.get(CacheHelper.CURRENTUSER).then((cachedUser) => {
       if (cachedUser) {
         return cachedUser;
-      } else {
-        return LeagueAPI.getUser('oeCzlQS1DUSlfqai4HAP').then((response) => {
-          CacheHelper.set(CacheHelper.CURRENTUSER, response.data());
-          return response.data();
-        }); 
-      }
+      } 
+      // else {
+      //   return LeagueAPI.getUser('oeCzlQS1DUSlfqai4HAP').then((response) => {
+      //     CacheHelper.set(CacheHelper.CURRENTUSER, response.data());
+      //     return response.data();
+      //   }); 
+      // }
+      return null;
     });
   }
 }
