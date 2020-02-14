@@ -8,6 +8,7 @@ import AddPlayerScreen from './../screens/AddPlayerScreen';
 import CreateLeagueScreen from './../screens/CreateLeagueScreen';
 import AddGameScreen from './../screens/AddGameScreen';
 import SelectPlayerScreen from './../screens/SelectPlayerScreen';
+import LoginScreen from '../screens/LoginScreen';
 
 const AppStack = createStackNavigator(
     { 
@@ -20,13 +21,13 @@ const AppStack = createStackNavigator(
       SelectPlayer: SelectPlayerScreen,
     }
 );
-// const AuthStack = createStackNavigator({ SignIn: SignInScreen });
+const AuthStack = createStackNavigator({ Login: LoginScreen });
 
 export default createAppContainer(
   createSwitchNavigator(
     {
+      Auth: AuthStack,
       App: AppStack,
-      // Auth: AuthStack,
     },
   )
 );
