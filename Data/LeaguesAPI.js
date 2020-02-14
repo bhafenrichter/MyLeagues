@@ -1,6 +1,7 @@
 import firestore from '@react-native-firebase/firestore';
 
 import CacheHelper from './../utils/CacheHelper';
+import Utils from './../utils/Utils';
 
 const services = {
   getLeagues: async (userId) => {  
@@ -83,13 +84,21 @@ const services = {
       }, 300);
     });
   },
-  createLeague: (leaguetype, name) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(function() {
-        const testData = '{ "id": "50", "name": "FIFA 20", "count": "12" }';
-        resolve(JSON.parse(testData));
-      }, 300);
-    });
+  createLeague: async (leaguetype, name) => {
+    const currentUser = await Utils.getCurrentUser();
+    const leagueUser = getEmptyLeagueUser(currentUser);
+
+    const newLeague = {
+      name: name,
+      subtype: leaguetype,
+      createdOn: new Date(),
+    };
+
+
+    return await createQuery('leagues', null, newLeague, [ {
+      subcollection: 'members',
+      data: [leagueUser]
+    }]);
   }, 
   addUsersToLeague: (users, leagueId) => {
     return new Promise((resolve, reject) => {
@@ -117,18 +126,61 @@ const services = {
   }
 }
 
-createQuery = async (collection, id, obj) => {
-  firestore().collection(collection)
+// helper methods
+
+getEmptyLeagueUser = (user) => {
+  return {
+    firstName: user.firstName,
+    lastName: user.lastName,
+    wins: 0,
+    losses: 0,
+    ties: 0,
+    userid: user.id,
+    joinedOn: new Date(),
+  };
+}
+
+uuid = () => {
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+    return v.toString(16);
+  });
+}
+
+createQuery = async (collection, id, obj, subcollections) => {
+  if (!id) {
+    // generate id
+    id = uuid();
+  }
+
+  let query = firestore().collection(collection)
     .doc(id)
     .set(obj)
-    .then(function(doc) {
-        console.log("Document successfully written!");
-        return doc;
-    })
-    .catch(function(error) {
-        console.error("Error writing document: ", error);
-        return null;
-    });
+    .then(function() {
+      console.log(collection + " successfully written!");
+  })
+  .then(function () {
+    // push the sub collections to the document as well
+    if (subcollections) {
+      for (var i = 0; i < subcollections.length; i++) {
+        let current = subcollections[i];
+
+        for (var j = 0; j < current.data.length; j++) {
+          let subcollectionData = current.data[j];
+          let subcollectionDocId = uuid();
+          console.log('writing ' + JSON.stringify(subcollectionData));
+          return firestore().collection(collection).doc(id).collection(current.subcollection).doc(subcollectionDocId).set(subcollectionData).then(function () {
+            console.log(subcollections[i].subcollection + " subcollection successfully written!");
+          });
+        }
+       
+      }
+    }
+  })
+  .catch(function(error) {
+      console.error("Error writing document: ", error);
+      return null;
+  });
 }
 
 module.exports = services;

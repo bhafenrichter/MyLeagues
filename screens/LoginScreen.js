@@ -8,6 +8,7 @@ import { withNavigation } from 'react-navigation';
 import LeaguesAPI from './../Data/LeaguesAPI';
 import MyImage from '../components/Common/MyImage';
 import CacheHelper from '../utils/CacheHelper';
+import Utils from '../utils/Utils';
 
 export class LoginScreen extends Component {
 
@@ -41,15 +42,17 @@ export class LoginScreen extends Component {
    
    // if the user previously existed, retrieve the user
    let myLeagueUser = await LeaguesAPI.getUser(firebaseResult.additionalUserInfo.profile.id);
-   myLeagueUser = myLeagueUser ? myLeagueUser.data() : null;
 
    // if user is new, create a new account
    if (!myLeagueUser) {
      myLeagueUser = await LeaguesAPI.createUser(firebaseResult.additionalUserInfo.profile);
    }
 
+   // keep the user id for later lookups
+   let cachedUser = {...{id: firebaseResult.additionalUserInfo.profile.id}, ...myLeagueUser.data()};
+
    // set the user in the storage
-   await CacheHelper.set(CacheHelper.CURRENTUSER, myLeagueUser);
+   await CacheHelper.set(CacheHelper.CURRENTUSER, cachedUser);
 
    navigation.navigate('Home', {});
 
