@@ -17,9 +17,11 @@ const services = {
       return leagues;
     }).then((leagues) => {
       // grab the members subcollection
-      let promises = [];
+      let membersPromises = [];
+      let gamesPromises = [];
+      let leaguePromises = [];
       leagues.forEach((league) => {
-        promises.push( new Promise (function (resolve, reject) {
+        membersPromises.push( new Promise (function (resolve, reject) {
           league.ref.collection('members').get().then((subcollection) => {
             const members = [];
             subcollection.forEach(function (member) {
@@ -30,15 +32,41 @@ const services = {
         }));
       });
 
-      return Promise.all(promises).then((results) => {
-        for (var i = 0; i < results.length; i++) {
+      // grab the games subcollection
+      leagues.forEach((league) => {
+        gamesPromises.push( new Promise (function (resolve, reject) {
+          league.ref.collection('games').get().then((subcollection) => {
+            const games = [];
+            subcollection.forEach(function (game) {
+              games.push(game.data());
+            });
+            resolve(games);
+          });
+        }));
+      });
+
+      // combine the two sets of promises into one
+      // wait for that promise to finish
+      leaguePromises.push(Promise.all(membersPromises).then((results) => {
+        return {members: results};
+      }));
+
+      leaguePromises.push(Promise.all(gamesPromises).then((results) => {
+        return {games: results};
+      }));
+
+      return Promise.all(leaguePromises).then((leagueData) => {
+        const memberData = leagueData[0].members;
+        const gameData = leagueData[1].games;
+        for (var i = 0; i < leagues.length; i++) {
           leagues[i] = leagues[i].data();
-          leagues[i].members = results[i];
+          leagues[i].members = memberData[i];
+          leagues[i].games = gameData[i];
         }
         return leagues;
       });
+
     }).then((results) => {
-      console.log(results);
       return results;
     });
   },

@@ -8,10 +8,14 @@ import { withNavigation } from 'react-navigation';
 import LeaguesAPI from './../Data/LeaguesAPI';
 import MyImage from '../components/Common/MyImage';
 import CacheHelper from '../utils/CacheHelper';
-import Utils from '../utils/Utils';
 
 export class LoginScreen extends Component {
-
+// hide the header
+static navigationOptions = ({ navigation }) => {
+  return {
+      header: () => null
+  } 
+}
  componentDidMount() {
 
  }
