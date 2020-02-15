@@ -10,6 +10,8 @@ import Utils from './../../utils/Utils';
 export class RecentGames extends Component {
   constructor(props) {
     super(props);
+
+    let { games } = this.props;
   }  
 
   addGame() {

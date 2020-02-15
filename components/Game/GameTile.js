@@ -4,6 +4,7 @@ import { Text, View, StyleSheet, TouchableOpacity } from 'react-native'
 import GameTileRow from './GameTileRow';
 import { EventBus, Events } from "./../../utils/EventBus";
 import UniversalStyles from "./../../utils/UniversalStyles";
+import Utils from '../../utils/Utils';
 export class GameTile extends Component {
 
   componentDidMount() {
@@ -21,12 +22,12 @@ export class GameTile extends Component {
             <Text style={styles.league}>{game.league}</Text>
             <GameTileRow 
               isWin={game.homeScore > game.awayScore}
-              name={game.homeName} 
+              name={Utils.getDisplayName(game.homeProfile.firstName, game.homeProfile.lastName)} 
               score={game.homeScore} 
               showName={scrollType === 'vertical'} />
             <GameTileRow 
               isWin={game.awayScore > game.homeScore}
-              name={game.awayName} 
+              name={Utils.getDisplayName(game.awayProfile.firstName, game.awayProfile.lastName)} 
               score={game.awayScore} 
               showName={scrollType === 'vertical'} />
             <Text style={styles.league}>{game.createdOn}</Text>

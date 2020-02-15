@@ -25,7 +25,7 @@ const services = {
           league.ref.collection('members').get().then((subcollection) => {
             const members = [];
             subcollection.forEach(function (member) {
-              members.push(member.data());
+              members.push( {...{id: member.id}, ...member.data()});
             });
             resolve(members);
           });
@@ -38,7 +38,7 @@ const services = {
           league.ref.collection('games').get().then((subcollection) => {
             const games = [];
             subcollection.forEach(function (game) {
-              games.push(game.data());
+              games.push({...{id: game.id}, ...game.data()});
             });
             resolve(games);
           });
@@ -59,9 +59,22 @@ const services = {
         const memberData = leagueData[0].members;
         const gameData = leagueData[1].games;
         for (var i = 0; i < leagues.length; i++) {
+          const leagueId = leagues[i].id;
+          const currentGames = gameData[i];
           leagues[i] = leagues[i].data();
+          leagues[i].id = leagueId;
           leagues[i].members = memberData[i];
-          leagues[i].games = gameData[i];
+
+          // add the display names from the members to the game data
+          for (var j = 0; j < currentGames.length; j++) {
+            const currentGame = currentGames[j];
+            const homeId = currentGame.homeId;
+            const awayId = currentGame.awayId;
+            currentGame.homeProfile = Utils.getUserInformation(homeId, memberData[i]);
+            currentGame.awayProfile = Utils.getUserInformation(awayId, memberData[i]);
+          }
+
+          leagues[i].games = currentGames;
         }
         return leagues;
       });
