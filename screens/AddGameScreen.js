@@ -22,7 +22,13 @@ export class AddGameScreen extends Component {
       name: '',
       isSelectPlayerVisible: false,
       selectedPlayer: {},
+      currentUser: {},
     };
+
+    const currentUser = Utils.getCurrentUser().then((user) => {
+      console.log(user);
+      this.setState({currentUser: user});
+    });
   }
 
   selectPlayer = (user) => {
@@ -55,15 +61,15 @@ export class AddGameScreen extends Component {
   }
 
   render() {
-    const currentUser = Utils.getCurrentUser();
-    const {userScore, opponentScore, selectedPlayer} = this.state;
+    const {userScore, opponentScore, selectedPlayer, currentUser} = this.state;
     const {members} = this.props.navigation.state.params;
     const {navigation} = this.props;
+
     return (
       <View style={styles.container}>
         <View style={styles.matchup}>
           <View style={styles.matchupColumn}>
-            <ProfileIcon size={125} showCaption={false} />
+            <ProfileIcon size={125} showCaption={false} url={currentUser.profilePicture} />
             <Text style={styles.text}>{Utils.getDisplayName(currentUser.firstName, currentUser.lastName)}</Text>
             <TextInput keyboardType="number-pad" value={userScore} onChangeText={(text) => {this.updateScore('user', text) }} style={[UniversalStyles.styles.input, styles.textbox]} />
           </View>

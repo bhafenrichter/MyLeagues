@@ -7,7 +7,7 @@ import { StyleSheet } from 'react-native';
 
 const ProfilePicture = (props) => {
   // prepare styling
-  const {style} = props;
+  const {style, url} = props;
   const defaultStyle = StyleSheet.create({
     default: {
       width: 28,
@@ -18,9 +18,8 @@ const ProfilePicture = (props) => {
 
   // pick a random picture
   const id = getRandomInt(70);
-
   return (
-    <MyImage url={"https://i.pravatar.cc/36?img=" + id} style={picStyle} />
+    <MyImage url={url} style={picStyle} />
   )
 }
 
@@ -30,6 +29,12 @@ function getRandomInt(max) {
 
 ProfilePicture.propTypes = {
   style: PropTypes.style,
+  url: PropTypes.string,
 };
+
+ProfilePicture.defaultProps = {
+  style: {},
+  url: "https://i.pravatar.cc/36",
+}
 
 export default ProfilePicture

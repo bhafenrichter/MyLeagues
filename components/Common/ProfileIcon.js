@@ -14,11 +14,13 @@ class ProfileIcon extends Component {
 	static propTypes = {
 		size: PropTypes.number,
 		showCaption: PropTypes.bool,
+		url: PropTypes.string,
 	}
 
 	static defaultProps = {
 		size: 75,
 		showCaption: true,
+		url: 'https://i.pravatar.cc/36?img=1',
 	}
 
 	selectProfile = (name, url) => {
@@ -30,14 +32,14 @@ class ProfileIcon extends Component {
 	}
 
 	render() {
-		const {size, showCaption, name} = this.props;
+		const {size, showCaption, name, url} = this.props;
 		const player = {
 			name: name ? name : 'no name',
-			url: 'https://i.pravatar.cc/36?img=1',
+			url: url,
 		}
 		return (
 			<TouchableOpacity style={styles.container} onPress={() => {this.selectProfile(player.name, player.url)}}>
-				<ProfilePicture style={{width: size, height: size}} />
+				<ProfilePicture style={{width: size, height: size}} url={url} />
 				{showCaption ? 
 					(<Text style={styles.text}>{name}</Text>) : (<View></View>)
 				}
