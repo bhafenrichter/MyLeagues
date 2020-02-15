@@ -5,13 +5,13 @@ import GameTile from './../Game/GameTile'
 import PlusButton from "./../Common/PlusButton"
 
 import { withNavigation } from 'react-navigation'
-import Utils from './../../utils/Utils';
+import Utils from './../../Data/LeaguesAPI';
 
 export class RecentGames extends Component {
   constructor(props) {
     super(props);
 
-    let { games } = this.props;
+    let { games, leagueId } = this.props;
   }  
 
   addGame() {

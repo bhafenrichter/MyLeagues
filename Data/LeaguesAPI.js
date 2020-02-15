@@ -72,6 +72,7 @@ const services = {
             const awayId = currentGame.awayId;
             currentGame.homeProfile = Utils.getUserInformation(homeId, memberData[i]);
             currentGame.awayProfile = Utils.getUserInformation(awayId, memberData[i]);
+            currentGame.league = leagues[i].name;
           }
 
           leagues[i].games = currentGames;
@@ -95,10 +96,20 @@ const services = {
       }
     });
   },
-  getRecentGames: (userId) => {
-    const testData = '[{ "id": "1", "league": "Alpha Alpha", "homeTeam": "B. Hafenrichter", "awayTeam": "B. Horncastle", "homeScore": "52", "awayScore": "40", "createdOn": "4/10/2019" }, { "id": "2", "league": "Alpha Alpha", "awayTeam": "B. Hafenrichter", "homeTeam": "B. Horncastle", "homeScore": "2", "awayScore": "1", "createdOn": "4/13/2019" }, { "id": "3", "league": "Alpha Alpha", "awayTeam": "B. Hafenrichter", "homeTeam": "B. Horncastle", "homeScore": "20", "awayScore": "43", "createdOn": "4/15/2019" }, { "id": "4", "league": "Alpha Alpha", "awayTeam": "B. Hafenrichter", "homeTeam": "B. Horncastle", "homeScore": "20", "awayScore": "43", "createdOn": "4/15/2019" }]';
-
-    return JSON.parse(testData);
+  getRecentGames: async (leagueId) => {
+    const leagues = await CacheHelper.get(CacheHelper.LEAGUES);
+    let games = [];
+    for (var i = 0; i < leagues.length; i++) {
+      const leagueGames = leagues[i].games;
+      if (leagueId) {
+        if (leagues[i].id === leagueId) {
+          games = games.concat(leagueGames);
+        }
+      } else {
+        games = games.concat(leagueGames);
+      }
+    }
+    return games;
   },
   getLeagueGames: async (leagueId) => {
     let games = [];

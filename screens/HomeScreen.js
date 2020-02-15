@@ -34,7 +34,12 @@ class HomeScreen extends Component {
         }
       });
     });
+
+    LeagueAPI.getRecentGames().then((response) => {
+      this.setState({recentGames: response});
+    });
   }
+
 
   onRefresh = () => {
     LeagueAPI.getLeagues(1).then((response) => {
@@ -46,7 +51,7 @@ class HomeScreen extends Component {
   }
 
   render() {
-    const {leagues, refreshing, currentUser} = this.state;
+    const {leagues, refreshing, recentGames} = this.state;
 
     return (
       <SafeAreaView style={styles.container}>
@@ -59,7 +64,7 @@ class HomeScreen extends Component {
           >
 
           <Text style={styles.headerText}>MyLeagues</Text>
-          <RecentGames scrollType="horizontal" title="Recent Games" />
+          <RecentGames scrollType="horizontal" title="Recent Games" games={recentGames} />
           <LeagueList leagues={leagues} />
         </ScrollView>
       </SafeAreaView>
