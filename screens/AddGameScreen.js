@@ -7,6 +7,7 @@ import { TextInput } from 'react-native-gesture-handler';
 
 import UniversalStyles from './../utils/UniversalStyles';
 import Utils from './../utils/Utils';
+import LeaguesAPI from './../Data/LeaguesAPI';
 
 import LoadingButton from './../components/Common/LoadingButton';
 
@@ -25,8 +26,8 @@ export class AddGameScreen extends Component {
       currentUser: {},
     };
 
-    const currentUser = Utils.getCurrentUser().then((user) => {
-      console.log(user);
+    const {members} = this.props.navigation.state.params;
+    const currentUser = Utils.getCurrentLeagueUser(members).then((user) => {
       this.setState({currentUser: user});
     });
   }
@@ -52,17 +53,13 @@ export class AddGameScreen extends Component {
     }
   }
 
-  submitGame = () => {
-    return new Promise((resolve, reject) => {
-      setTimeout(function() {
-        resolve('foo');
-      }, 300);
-    });
+  submitGame = (leagueid, userid, opponentid, homeScore, awayScore) => {
+    return LeaguesAPI.createGame(leagueid, userid, opponentid, homeScore, awayScore);
   }
 
   render() {
     const {userScore, opponentScore, selectedPlayer, currentUser} = this.state;
-    const {members} = this.props.navigation.state.params;
+    const {members, leagueId} = this.props.navigation.state.params;
     const {navigation} = this.props;
 
     return (
@@ -87,7 +84,7 @@ export class AddGameScreen extends Component {
           </View>
         </View>
         <View style={styles.footer}>
-          <LoadingButton onSubmit={this.submitGame} onComplete={() => navigation.goBack()} title="Create" />
+          <LoadingButton onSubmit={() => this.submitGame(leagueId, currentUser.id, selectedPlayer.id, userScore, opponentScore)} onComplete={() => navigation.goBack()} title="Create" />
         </View>
       </View>
 

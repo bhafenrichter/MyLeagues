@@ -28,11 +28,20 @@ export default {
     });
   },
 
+  async getCurrentLeagueUser(members) {
+    const currentUser = await this.getCurrentUser();
+
+    for (var i = 0; i < members.length; i++) {
+      if (members[i].userid === currentUser.id) {
+        return members[i];
+      }
+    }
+  },
+
   getUserInformation(userid, members) {
     for (var i = 0; i < members.length; i++) {
       const current = members[i];
       if (current.id === userid) {
-        console.log(current);
         return {
           firstName: current.firstName,
           lastName: current.lastName,

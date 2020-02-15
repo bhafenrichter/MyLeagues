@@ -10,13 +10,11 @@ import Utils from './../../Data/LeaguesAPI';
 export class RecentGames extends Component {
   constructor(props) {
     super(props);
-
-    let { games, leagueId } = this.props;
   }  
 
   addGame() {
-    const {leagueUsers, navigation} = this.props;
-    navigation.navigate('AddGame', {members: leagueUsers});
+    const {leagueUsers, navigation, leagueId} = this.props;
+    navigation.navigate('AddGame', {members: leagueUsers, leagueId: leagueId});
   }
 
   render() {

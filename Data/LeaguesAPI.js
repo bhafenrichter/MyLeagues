@@ -152,6 +152,25 @@ const services = {
       data: [leagueUser]
     }]);
   }, 
+  createGame: (leagueid, userid, opponentid, userScore, opponentScore) => {
+    const game = {
+      homeId: userid,
+      awayId: opponentid,
+      homeScore: userScore,
+      awayScore: opponentScore,
+      playedOn: new Date(),
+    }
+
+    return firestore()
+      .collection('leagues')
+      .doc(leagueid)
+      .collection('games')
+      .doc(uuid())
+      .set(game)
+      .then(function() {
+        console.log('game successfully written');
+      });
+  },
   addUsersToLeague: (users, leagueId) => {
     return new Promise((resolve, reject) => {
       setTimeout(function() {

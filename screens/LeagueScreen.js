@@ -29,7 +29,6 @@ export class LeagueScreen extends Component {
     const {league} = this.props.navigation.state.params;
     const {refreshing} = this.state;
     const {members, games} = league;
-
     return (
         <SafeAreaView style={styles.container}>
           <Image source={{uri: 'https://cdn.pixabay.com/photo/2017/08/30/01/05/milky-way-2695569_960_720.jpg'}} style={styles.backgroundImage} blurRadius={2} />
@@ -40,7 +39,7 @@ export class LeagueScreen extends Component {
             showsVerticalScrollIndicator={false}>
             <Text style={styles.headerText}>{league.name}</Text>
             <View style={styles.module}>
-              <RecentGames games={games} leagueUsers={members} scrollType="vertical" title="Recent Games" />
+              <RecentGames games={games} leagueUsers={members} scrollType="vertical" title="Recent Games" leagueId={league.id} />
             </View>
 
             <View style={styles.module}>
