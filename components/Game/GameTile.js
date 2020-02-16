@@ -31,6 +31,7 @@ export class GameTile extends Component {
               score={game.awayScore} 
               showName={scrollType === 'vertical'} />
             <Text style={styles.league}>{game.createdOn}</Text>
+            <Text style={styles.league}>{Utils.getFirebaseDate(game.playedOn)}</Text>
           </View>
         </TouchableOpacity>
     )

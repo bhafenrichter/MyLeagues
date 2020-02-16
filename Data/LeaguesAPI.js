@@ -67,12 +67,7 @@ const services = {
 
           // add the display names from the members to the game data
           for (var j = 0; j < currentGames.length; j++) {
-            const currentGame = currentGames[j];
-            const homeId = currentGame.homeId;
-            const awayId = currentGame.awayId;
-            currentGame.homeProfile = Utils.getUserInformation(homeId, memberData[i]);
-            currentGame.awayProfile = Utils.getUserInformation(awayId, memberData[i]);
-            currentGame.league = leagues[i].name;
+            currentGames[i] = getLeagueUsersForGame(currentGames[i], memberData);
           }
 
           leagues[i].games = currentGames;
@@ -84,18 +79,7 @@ const services = {
       return results;
     });
   },
-  
-  getLeague: async (id) => {
-    return CacheHelper.get(CacheHelper.LEAGUES).then((response) => {
-      
-      for (var i = 0; i < response.length; i++) {
-        if (response[i].id == id) {
-          return response[i];
-        }
-        return {};
-      }
-    });
-  },
+
   getRecentGames: async (leagueId) => {
     const leagues = await CacheHelper.get(CacheHelper.LEAGUES);
     let games = [];
@@ -113,16 +97,23 @@ const services = {
   },
   getLeagueGames: async (leagueId) => {
     let games = [];
-    const request = firestore()
-      .collection('games')
-      .where('leagueId', '==', leagueId);
 
-    return request.get().then((collection) => {
-      collection.forEach((game) => {
-        games.push(game.data());
+    // grabs from cache
+    const league = await getLeague(leagueId);
+
+    return firestore()
+      .collection('leagues')
+      .doc(leagueId)
+      .collection('games')
+      .get().then((collection) => {
+        collection.forEach((game) => {
+          let gameData = game.data();
+          gameData = getLeagueUsersForGame(gameData, league);
+          games.push(gameData);
+        });
+        console.log(games);
+        return games;
       });
-      return games;
-    });
   },
   getLeaguesForSearch: (search) => {
     const testData = '[{ "id": "1", "name": "FIFA 20", "count": "12" }, { "id": "2", "name": "FIFA 19", "count": "20" }, { "id": "3", "name": "Madden 20", "count": "34" }, { "id": "4", "name": "Madden 19", "count": "2" } ]';
@@ -198,6 +189,31 @@ const services = {
 }
 
 // helper methods
+
+  
+getLeague = async (id) => {
+  return CacheHelper.get(CacheHelper.LEAGUES).then((response) => {
+    
+    for (var i = 0; i < response.length; i++) {
+      if (response[i].id == id) {
+        return response[i];
+      }
+      return {};
+    }
+  });
+};
+
+
+getLeagueUsersForGame = (game, league) => {
+  const homeId = game.homeId;
+  const awayId = game.awayId;
+  const members = league.members;
+  console.log(members);
+  game.homeProfile = Utils.getUserInformation(homeId, members);
+  game.awayProfile = Utils.getUserInformation(awayId, members);
+  game.league = league.name;
+  return game;
+}
 
 getEmptyLeagueUser = (user) => {
   return {

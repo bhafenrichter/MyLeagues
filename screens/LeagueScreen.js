@@ -12,23 +12,27 @@ export class LeagueScreen extends Component {
   constructor(props) {
     super(props);
 
+    const {league} = this.props.navigation.state.params;
+
     this.state = {
       league: {},
       refreshing: false,
+      games: league.games,
     }
   }
 
   onRefresh = () => {
-    LeagueAPI.getLeagueGames(1).then((response) => {
-      CacheHelper.set(CacheHelper.GAMES + '_1', response);
+    const {league} = this.props.navigation.state.params;
+    LeagueAPI.getLeagueGames(league.id).then((response) => {
       this.setState({ games: response });
     });  
   }
 
   render() {
     const {league} = this.props.navigation.state.params;
-    const {refreshing} = this.state;
-    const {members, games} = league;
+    const {refreshing, games} = this.state;
+    const {members} = league;
+
     return (
         <SafeAreaView style={styles.container}>
           <Image source={{uri: 'https://cdn.pixabay.com/photo/2017/08/30/01/05/milky-way-2695569_960_720.jpg'}} style={styles.backgroundImage} blurRadius={2} />
