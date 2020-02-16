@@ -3,6 +3,10 @@ import firestore from '@react-native-firebase/firestore';
 import CacheHelper from './../utils/CacheHelper';
 import Utils from './../utils/Utils';
 
+// preferences
+const GAMES_IN_LEAGUE_FEED = 5;
+
+
 const services = {
   getLeagues: async (userId) => {  
     const request = firestore()
@@ -105,6 +109,8 @@ const services = {
       .collection('leagues')
       .doc(leagueId)
       .collection('games')
+      .orderBy('playedOn', 'desc')
+      .limit(GAMES_IN_LEAGUE_FEED)
       .get().then((collection) => {
         collection.forEach((game) => {
           let gameData = game.data();
