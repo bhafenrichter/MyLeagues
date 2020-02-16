@@ -50,5 +50,19 @@ export default {
       }
     }
     return {};
+  }, 
+
+  async saveLeague(league) {
+    const leagues = await CacheHelper.get(CacheHelper.LEAGUES);
+
+    for (var i = 0; i < leagues.length; i++) {
+      if (leagues[i].id === league.id) {
+        console.log('updating league');
+        leagues[i] = league;
+        console.log(leagues[i]);
+      }
+    }
+
+    return await CacheHelper.set(CacheHelper.LEAGUES, leagues);
   }
 }

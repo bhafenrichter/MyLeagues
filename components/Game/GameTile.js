@@ -22,12 +22,12 @@ export class GameTile extends Component {
             <Text style={styles.league}>{game.league}</Text>
             <GameTileRow 
               isWin={game.homeScore > game.awayScore}
-              name={Utils.getDisplayName(game.homeProfile.firstName, game.homeProfile.lastName)} 
+              name={Utils.getDisplayName(game.homeProfile ? game.homeProfile.firstName : '', game.homeProfile ? game.homeProfile.lastName : '')} 
               score={game.homeScore} 
               showName={scrollType === 'vertical'} />
             <GameTileRow 
               isWin={game.awayScore > game.homeScore}
-              name={Utils.getDisplayName(game.awayProfile.firstName, game.awayProfile.lastName)} 
+              name={Utils.getDisplayName(game.awayProfile ? game.awayProfile.firstName : '', game.awayProfile ? game.awayProfile.lastName : '')} 
               score={game.awayScore} 
               showName={scrollType === 'vertical'} />
             <Text style={styles.league}>{game.createdOn}</Text>

@@ -47,7 +47,11 @@ class HomeScreen extends Component {
       this.setState({
         leagues: response,
       });
-    });  
+    }); 
+    
+    LeagueAPI.getRecentGames().then((response) => {
+      this.setState({recentGames: response});
+    }); 
   }
 
   render() {

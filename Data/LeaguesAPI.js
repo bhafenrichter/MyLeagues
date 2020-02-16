@@ -5,6 +5,7 @@ import Utils from './../utils/Utils';
 
 // preferences
 const GAMES_IN_LEAGUE_FEED = 5;
+const GAMES_IN_HOME_FEED = 10;
 
 
 const services = {
@@ -39,7 +40,11 @@ const services = {
       // grab the games subcollection
       leagues.forEach((league) => {
         gamesPromises.push( new Promise (function (resolve, reject) {
-          league.ref.collection('games').get().then((subcollection) => {
+          league.ref.collection('games')
+          .orderBy('playedOn', 'desc')
+          .limit(GAMES_IN_HOME_FEED)
+          .get()
+          .then((subcollection) => {
             const games = [];
             subcollection.forEach(function (game) {
               games.push({...{id: game.id}, ...game.data()});
@@ -68,12 +73,10 @@ const services = {
           leagues[i] = leagues[i].data();
           leagues[i].id = leagueId;
           leagues[i].members = memberData[i];
-
           // add the display names from the members to the game data
           for (var j = 0; j < currentGames.length; j++) {
-            currentGames[i] = getLeagueUsersForGame(currentGames[i], memberData);
+            currentGames[j] = getLeagueUsersForGame(currentGames[j], leagues[i]);
           }
-
           leagues[i].games = currentGames;
         }
         return leagues;
@@ -117,7 +120,12 @@ const services = {
           gameData = getLeagueUsersForGame(gameData, league);
           games.push(gameData);
         });
-        console.log(games);
+
+        league.games = games;
+        // save the new league games to the cache
+        Utils.saveLeague(league).then(function () {
+          return games;
+        });
         return games;
       });
   },
@@ -214,7 +222,6 @@ getLeagueUsersForGame = (game, league) => {
   const homeId = game.homeId;
   const awayId = game.awayId;
   const members = league.members;
-  console.log(members);
   game.homeProfile = Utils.getUserInformation(homeId, members);
   game.awayProfile = Utils.getUserInformation(awayId, members);
   game.league = league.name;
