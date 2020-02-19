@@ -24,10 +24,16 @@ export class AddGameScreen extends Component {
       isSelectPlayerVisible: false,
       selectedPlayer: {},
       currentUser: {},
+      currentLeagueUser: {},
     };
 
     const {members} = this.props.navigation.state.params;
-    const currentUser = Utils.getCurrentLeagueUser(members).then((user) => {
+    
+    Utils.getCurrentLeagueUser(members).then((user) => {
+      this.setState({currentLeagueUser: user});
+    });
+
+    Utils.getCurrentUser().then((user) => {
       this.setState({currentUser: user});
     });
   }
@@ -58,10 +64,9 @@ export class AddGameScreen extends Component {
   }
 
   render() {
-    const {userScore, opponentScore, selectedPlayer, currentUser} = this.state;
+    const {userScore, opponentScore, selectedPlayer, currentUser, currentLeagueUser} = this.state;
     const {members, leagueId} = this.props.navigation.state.params;
     const {navigation} = this.props;
-
     return (
       <View style={styles.container}>
         <View style={styles.matchup}>
@@ -84,7 +89,7 @@ export class AddGameScreen extends Component {
           </View>
         </View>
         <View style={styles.footer}>
-          <LoadingButton onSubmit={() => this.submitGame(leagueId, currentUser.id, selectedPlayer.id, userScore, opponentScore)} onComplete={() => navigation.goBack()} title="Create" />
+          <LoadingButton onSubmit={() => this.submitGame(leagueId, currentLeagueUser.id, selectedPlayer.id, userScore, opponentScore)} onComplete={() => navigation.goBack()} title="Create" />
         </View>
       </View>
 

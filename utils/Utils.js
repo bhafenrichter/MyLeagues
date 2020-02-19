@@ -18,24 +18,20 @@ export default {
       if (cachedUser) {
         return cachedUser;
       } 
-      // else {
-      //   return LeagueAPI.getUser('oeCzlQS1DUSlfqai4HAP').then((response) => {
-      //     CacheHelper.set(CacheHelper.CURRENTUSER, response.data());
-      //     return response.data();
-      //   }); 
-      // }
       return null;
     });
   },
 
   async getCurrentLeagueUser(members) {
     const currentUser = await this.getCurrentUser();
-
+    console.log(members);
+    console.log(currentUser);
     for (var i = 0; i < members.length; i++) {
       if (members[i].userid === currentUser.id) {
         return members[i];
       }
     }
+    return null;
   },
 
   getUserInformation(userid, members) {

@@ -9,12 +9,12 @@ const GAMES_IN_HOME_FEED = 10;
 
 
 const services = {
-  getLeagues: async (userId) => {  
+  getLeagues: async (userId) => {
     const request = firestore()
       .collection('leagues');
 
     return request.get().then((response) => {
-      let leagues = [];    
+      let leagues = [];
       response.forEach((doc) => {
         const league = doc;
         leagues.push(league);
@@ -26,11 +26,16 @@ const services = {
       let gamesPromises = [];
       let leaguePromises = [];
       leagues.forEach((league) => {
-        membersPromises.push( new Promise (function (resolve, reject) {
+        membersPromises.push(new Promise(function (resolve, reject) {
           league.ref.collection('members').get().then((subcollection) => {
             const members = [];
             subcollection.forEach(function (member) {
-              members.push( {...{id: member.id}, ...member.data()});
+              members.push({
+                ...{
+                  id: member.id
+                },
+                ...member.data()
+              });
             });
             resolve(members);
           });
@@ -39,29 +44,38 @@ const services = {
 
       // grab the games subcollection
       leagues.forEach((league) => {
-        gamesPromises.push( new Promise (function (resolve, reject) {
+        gamesPromises.push(new Promise(function (resolve, reject) {
           league.ref.collection('games')
-          .orderBy('playedOn', 'desc')
-          .limit(GAMES_IN_HOME_FEED)
-          .get()
-          .then((subcollection) => {
-            const games = [];
-            subcollection.forEach(function (game) {
-              games.push({...{id: game.id}, ...game.data()});
+            .orderBy('playedOn', 'desc')
+            .limit(GAMES_IN_HOME_FEED)
+            .get()
+            .then((subcollection) => {
+              const games = [];
+              subcollection.forEach(function (game) {
+                games.push({
+                  ...{
+                    id: game.id
+                  },
+                  ...game.data()
+                });
+              });
+              resolve(games);
             });
-            resolve(games);
-          });
         }));
       });
 
       // combine the two sets of promises into one
       // wait for that promise to finish
       leaguePromises.push(Promise.all(membersPromises).then((results) => {
-        return {members: results};
+        return {
+          members: results
+        };
       }));
 
       leaguePromises.push(Promise.all(gamesPromises).then((results) => {
-        return {games: results};
+        return {
+          games: results
+        };
       }));
 
       return Promise.all(leaguePromises).then((leagueData) => {
@@ -135,7 +149,7 @@ const services = {
   },
   getUsersForSearch: (search) => {
     return new Promise((resolve, reject) => {
-      setTimeout(function() {
+      setTimeout(function () {
         const testData = '[{ "id": "1", "name": "Brandon Hafenrichter" }, { "id": "4", "name": "Connor Hafenrichter" }, { "id": "2", "name": "Brian Horncastle" }, { "id": "3", "name": "Graham Lehman" } ]';
         resolve(JSON.parse(testData));
       }, 300);
@@ -152,12 +166,12 @@ const services = {
     };
 
 
-    return await createQuery('leagues', null, newLeague, [ {
+    return await createQuery('leagues', null, newLeague, [{
       subcollection: 'members',
       data: [leagueUser]
     }]);
-  }, 
-  createGame: (leagueid, userid, opponentid, userScore, opponentScore) => {
+  },
+  createGame: async (leagueid, userid, opponentid, userScore, opponentScore) => {
     const game = {
       homeId: userid,
       awayId: opponentid,
@@ -166,19 +180,65 @@ const services = {
       playedOn: new Date(),
     }
 
-    return firestore()
+    // get the league
+    var league = await firestore()
       .collection('leagues')
-      .doc(leagueid)
+      .doc(leagueid);
+
+    // add the game to the db
+    var gamePromise = league
       .collection('games')
       .doc(uuid())
       .set(game)
-      .then(function() {
+      .then(function () {
         console.log('game successfully written');
       });
+
+    // update the records
+    var userRecordToUpdate = userScore > opponentScore ? 'wins' : 'losses';
+    var opponentRecordToUpdate = opponentScore > userScore ? 'wins' : 'losses';
+
+    if (userScore === opponentScore) {
+      userRecordToUpdate = 'ties';
+      opponentRecordToUpdate = 'ties';
+    }
+
+    var opponentRecordPromise = await league
+      .collection('members')
+      .doc(opponentid);
+
+    var userRecordPromise = await league
+      .collection('members')
+      .doc(userid);
+
+    var opponentRecord = await opponentRecordPromise
+      .get().then(function (response) {
+        console.log(response);
+        return response.data()[opponentRecordToUpdate];
+      });
+
+    var userRecord = await userRecordPromise
+      .get().then(function (response) {
+      console.log(response);
+      return response.data()[userRecordToUpdate];
+    });
+
+    console.log(opponentRecord);
+    console.log(userRecord);
+
+    var userRecordPromise = userRecordPromise
+      .update({[userRecordToUpdate]: userRecord + 1});
+
+    var opponentRecordPromise = opponentRecordPromise
+      .update({[opponentRecordToUpdate]: opponentRecord + 1});
+
+    return Promise.all([userRecordPromise, opponentRecordPromise, gamePromise]).then(function () {
+      console.log('all records updated');
+    });
   },
   addUsersToLeague: (users, leagueId) => {
     return new Promise((resolve, reject) => {
-      setTimeout(function() {
+      setTimeout(function () {
         const testData = '{ "id": "50", "name": "FIFA 20", "count": "12" }';
         resolve(JSON.parse(testData));
       }, 300);
@@ -197,17 +257,17 @@ const services = {
       profilePicture: user.picture ? user.picture.data.url : '',
       joinedOn: new Date(),
     };
-  
+
     return await createQuery('users', user.id, newUser);
   }
 }
 
 // helper methods
 
-  
+
 getLeague = async (id) => {
   return CacheHelper.get(CacheHelper.LEAGUES).then((response) => {
-    
+
     for (var i = 0; i < response.length; i++) {
       if (response[i].id == id) {
         return response[i];
@@ -241,8 +301,9 @@ getEmptyLeagueUser = (user) => {
 }
 
 uuid = () => {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-    var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
+    var r = Math.random() * 16 | 0,
+      v = c == 'x' ? r : (r & 0x3 | 0x8);
     return v.toString(16);
   });
 }
@@ -256,31 +317,31 @@ createQuery = async (collection, id, obj, subcollections) => {
   let query = firestore().collection(collection)
     .doc(id)
     .set(obj)
-    .then(function() {
+    .then(function () {
       console.log(collection + " successfully written!");
-  })
-  .then(function () {
-    // push the sub collections to the document as well
-    if (subcollections) {
-      for (var i = 0; i < subcollections.length; i++) {
-        let current = subcollections[i];
+    })
+    .then(function () {
+      // push the sub collections to the document as well
+      if (subcollections) {
+        for (var i = 0; i < subcollections.length; i++) {
+          let current = subcollections[i];
 
-        for (var j = 0; j < current.data.length; j++) {
-          let subcollectionData = current.data[j];
-          let subcollectionDocId = uuid();
-          console.log('writing ' + JSON.stringify(subcollectionData));
-          return firestore().collection(collection).doc(id).collection(current.subcollection).doc(subcollectionDocId).set(subcollectionData).then(function () {
-            console.log(subcollections[i].subcollection + " subcollection successfully written!");
-          });
+          for (var j = 0; j < current.data.length; j++) {
+            let subcollectionData = current.data[j];
+            let subcollectionDocId = uuid();
+            console.log('writing ' + JSON.stringify(subcollectionData));
+            return firestore().collection(collection).doc(id).collection(current.subcollection).doc(subcollectionDocId).set(subcollectionData).then(function () {
+              console.log(subcollections[i].subcollection + " subcollection successfully written!");
+            });
+          }
+
         }
-       
       }
-    }
-  })
-  .catch(function(error) {
+    })
+    .catch(function (error) {
       console.error("Error writing document: ", error);
       return null;
-  });
+    });
 }
 
 module.exports = services;
