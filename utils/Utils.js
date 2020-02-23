@@ -13,9 +13,18 @@ export default {
     return date ? new Date(date._seconds * 1000).toLocaleDateString() : new Date().toLocaleDateString();
   },
 
-  getCurrentUser() {
+  getCurrentUser(hardRefresh) {
     return CacheHelper.get(CacheHelper.CURRENTUSER).then((cachedUser) => {
       if (cachedUser) {
+        const id = cachedUser.id;
+        if (hardRefresh === true) {
+          LeagueAPI.getUser(cachedUser.id).then(function(response) {
+            let user = {...{id: id}, ...response.data()};
+            console.log(user);
+            CacheHelper.set(CacheHelper.CURRENTUSER, user);
+            return response;
+          });
+        }
         return cachedUser;
       } 
       return null;

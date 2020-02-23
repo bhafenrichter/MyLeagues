@@ -1,4 +1,4 @@
-import firestore from '@react-native-firebase/firestore';
+import firestore, { firebase } from '@react-native-firebase/firestore';
 
 import CacheHelper from './../utils/CacheHelper';
 import Utils from './../utils/Utils';
@@ -10,8 +10,15 @@ const GAMES_IN_HOME_FEED = 10;
 
 const services = {
   getLeagues: async (userId) => {
+
+    // get the leagues the user is currently in
+    const currentUser = await Utils.getCurrentUser(true); 
+
+    console.log(currentUser.leagues);
+    // query the leagues
     const request = firestore()
-      .collection('leagues');
+      .collection('leagues')
+      .where('id', 'in', currentUser.leagues);
 
     return request.get().then((response) => {
       let leagues = [];
@@ -158,19 +165,23 @@ const services = {
   createLeague: async (leaguetype, name) => {
     const currentUser = await Utils.getCurrentUser();
     const leagueUser = getEmptyLeagueUser(currentUser);
+    const leagueid = uuid();
 
     const newLeague = {
+      id: leagueid,
       name: name,
       subtype: leaguetype,
       createdOn: new Date(),
     };
 
+    await addLeagueToUser(currentUser.id, leagueid);
 
-    return await createQuery('leagues', null, newLeague, [{
+    return await createQuery('leagues', leagueid, newLeague, [{
       subcollection: 'members',
       data: [leagueUser]
     }]);
   },
+
   createGame: async (leagueid, userid, opponentid, userScore, opponentScore) => {
     const game = {
       homeId: userid,
@@ -343,5 +354,16 @@ createQuery = async (collection, id, obj, subcollections) => {
       return null;
     });
 }
+
+addLeagueToUser = async (userid, leagueid) => {
+  return firestore()
+    .collection('users')
+    .doc(userid)
+    .update({
+      leagues: firebase.firestore.FieldValue.arrayUnion(leagueid)
+    }).then(function () {
+      console.log('league added!');
+    })
+},
 
 module.exports = services;

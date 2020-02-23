@@ -39,14 +39,12 @@ class AddPlayerScreen extends Component {
       isLoading: true,
     });
 
-    // if(text.length > 3) {
-      return LeaguesAPI.getUsersForSearch(text).then((results) => {
-        this.setState({
-          searchResults: results,
-          isLoading: false,
-        });
+    return LeaguesAPI.getUsersForSearch(text).then((results) => {
+      this.setState({
+        searchResults: results,
+        isLoading: false,
       });
-    // }
+    });
   }
 
   selectUser = (index) => {

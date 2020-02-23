@@ -23,20 +23,18 @@ static navigationOptions = ({ navigation }) => {
  async login() {
   const {navigation} = this.props;
 
-   // facebook login
-   const result = await LoginManager.logInWithPermissions(['public_profile', 'email']);
-
-   if (result.isCancelled) {
-    console.log('user cancelled login');
-    return;
-  }
-
-   // firebase token from the facebook login result
-   const token = await AccessToken.getCurrentAccessToken();
-
-   if (!token) {
-     console.log('error getting access token')
+  // firebase token from the facebook login result
+  const token = await AccessToken.getCurrentAccessToken();
+  
+  if (!token) {
+    // facebook login
+    const result = await LoginManager.logInWithPermissions(['public_profile', 'email', 'user_friends']);
+ 
+    if (result.isCancelled) {
+     console.log('user cancelled login');
+     return;
    }
+  }
    
    // get the credentials with the access token
    const credential = firebase.auth.FacebookAuthProvider.credential(token.accessToken);
@@ -48,7 +46,7 @@ static navigationOptions = ({ navigation }) => {
    let myLeagueUser = await LeaguesAPI.getUser(firebaseResult.additionalUserInfo.profile.id);
 
    // if user is new, create a new account
-   if (!myLeagueUser) {
+   if (!myLeagueUser.data()) {
      myLeagueUser = await LeaguesAPI.createUser(firebaseResult.additionalUserInfo.profile);
    }
 
