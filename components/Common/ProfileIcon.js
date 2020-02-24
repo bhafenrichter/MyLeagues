@@ -33,13 +33,32 @@ class ProfileIcon extends Component {
 
 	render() {
 		const {size, showCaption, name, url} = this.props;
+
+		const styles = StyleSheet.create({
+			container: {
+				flexDirection: 'column',
+				padding: 10,
+			},
+			image: {
+				width: size, 
+				height: size,
+			},
+			text: {
+				marginTop: 10,
+				color: 'purple',
+				textAlign: 'center',
+				flexWrap: "wrap",
+				width: size,
+			}
+		});
+
 		const player = {
 			name: name ? name : 'no name',
 			url: url,
 		}
 		return (
 			<TouchableOpacity style={styles.container} onPress={() => {this.selectProfile(player.name, player.url)}}>
-				<ProfilePicture style={{width: size, height: size}} url={url} />
+				<ProfilePicture style={styles.image} url={url} />
 				{showCaption ? 
 					(<Text style={styles.text}>{name}</Text>) : (<View></View>)
 				}
@@ -50,13 +69,3 @@ class ProfileIcon extends Component {
 }
 
 export default ProfileIcon;
-
-const styles = StyleSheet.create({
-	container: {
-		flexDirection: 'column',
-		padding: 10,
-	},
-	text: {
-		textAlign: 'center',
-	}
-});

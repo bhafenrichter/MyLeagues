@@ -267,6 +267,7 @@ const services = {
       lastName: user.last_name,
       profilePicture: user.picture ? user.picture.data.url : '',
       joinedOn: new Date(),
+      leagues: [],
     };
 
     return await createQuery('users', user.id, newUser);

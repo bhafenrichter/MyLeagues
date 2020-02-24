@@ -7,6 +7,7 @@ import FriendsListed from '../components/Common/FriendsListed';
 import LoadingButton from '../components/Common/LoadingButton';
 
 import LeaguesAPI from '../Data/LeaguesAPI';
+import FacebookAPI from '../Data/FacebookAPI';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import { withNavigation } from 'react-navigation'
 
@@ -15,10 +16,27 @@ class AddPlayerScreen extends Component {
     super(props);
     this.state = {
       searchText: '',
+      initialResults: [],
       searchResults: [],
       isLoading: false,
       selectedUsers: [],
     };
+
+    // grab the friends from facebook
+    FacebookAPI.getFriends((response) => {
+      let friends = [];
+      let facebookFriends = response && response.friends ? response.friends.data : [];
+      if (response && response.friends) {
+        for (let i = 0; i < facebookFriends.length; i++) {
+          friends.push(facebookFriends[i]);
+        }
+      }
+      this.setState({
+        initialResults: friends,
+        searchResults: friends,
+      });
+    });
+
     this.search();
   }
 
@@ -34,16 +52,17 @@ class AddPlayerScreen extends Component {
   }
 
   search = (text) => {
+    const { initialResults } = this.state;
+    let searchResults;
+    if (text !== '') {
+      searchResults = initialResults.filter((result) => { return result.name.includes(text); });
+    } else { 
+      searchResults = initialResults;
+    }
+    console.log(searchResults);
     this.setState({
       searchText: text,
-      isLoading: true,
-    });
-
-    return LeaguesAPI.getUsersForSearch(text).then((results) => {
-      this.setState({
-        searchResults: results,
-        isLoading: false,
-      });
+      searchResults: searchResults,
     });
   }
 
@@ -90,7 +109,7 @@ class AddPlayerScreen extends Component {
                 renderItem={({item, index}) => (
                   <View style={styles.itemWrapper}>
                     <TouchableOpacity onPress={() => {this.selectUser(index)}} style={[item.toggled ? styles.toggled : {}, styles.item]}>
-                      <ProfileIcon size={70} />
+                      <ProfileIcon size={60} showCaption={true} name={item.name} url={item.picture.data.url} />
                     </TouchableOpacity>
                   </View>
 
@@ -131,6 +150,8 @@ const styles = StyleSheet.create({
     width: '75%',
   },
   results: {
+    padding: 10,
+    alignItems: 'center',
   },
   list: {
   },

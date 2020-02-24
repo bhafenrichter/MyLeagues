@@ -1,15 +1,17 @@
+import { GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
+
 
 export default {
-  getFriends() {
-    return FB.api(
-      '/me',
-      'GET',
-      {"fields":"friends"},
-      function(response) {
-          // Insert your code here
-          console.log(response);
-          return response;
+  getFriends(callback) {
+    // Create a graph request asking for user information with a callback to handle the response.
+    const infoRequest = new GraphRequest(
+      '/me?fields=friends{picture,name}',
+      null,
+      (error, response) => {
+        callback(response);
       }
     );
+    // Start the graph request.
+    new GraphRequestManager().addRequest(infoRequest).start();
   }
 }
