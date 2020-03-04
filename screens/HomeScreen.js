@@ -81,7 +81,8 @@ export default HomeScreen;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 10,
+    paddingLeft: 25,
+    paddingRight: 25,
   },
   headerText: {
     fontSize: 64,

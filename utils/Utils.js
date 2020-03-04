@@ -51,6 +51,8 @@ export default {
           firstName: current.firstName,
           lastName: current.lastName,
           profilePicture: current.profilePicture,
+          wins: current.wins,
+          losses: current.losses
         };
       }
     }

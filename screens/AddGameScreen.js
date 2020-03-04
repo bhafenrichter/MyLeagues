@@ -14,6 +14,12 @@ import LoadingButton from './../components/Common/LoadingButton';
 import { withNavigation } from 'react-navigation';
 
 export class AddGameScreen extends Component {
+  
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Add Game'
+    };
+	};
 
   constructor(props) {
     super(props);
@@ -25,12 +31,15 @@ export class AddGameScreen extends Component {
       selectedPlayer: {},
       currentUser: {},
       currentLeagueUser: {},
+      selectableMembers: [],
     };
 
     const {members} = this.props.navigation.state.params;
     
     Utils.getCurrentLeagueUser(members).then((user) => {
       this.setState({currentLeagueUser: user});
+      // remove self from members list
+      this.setState({selectableMembers: members.filter((member) => { return member.id !== user.id }) });
     });
 
     Utils.getCurrentUser().then((user) => {
@@ -65,14 +74,14 @@ export class AddGameScreen extends Component {
   }
 
   render() {
-    const {userScore, opponentScore, selectedPlayer, currentUser, currentLeagueUser} = this.state;
-    const {members, leagueId} = this.props.navigation.state.params;
+    const {userScore, opponentScore, selectedPlayer, currentUser, currentLeagueUser, selectableMembers} = this.state;
+    const {leagueId} = this.props.navigation.state.params;
     const {navigation} = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.matchup}>
           <View style={styles.matchupColumn}>
-            <ProfileIcon size={125} showCaption={false} url={currentLeagueUser.profilePicture} />
+            <ProfileIcon size={125} showCaption={false} url={currentLeagueUser ? currentLeagueUser.profilePicture : ''} />
             <Text style={styles.text}>{Utils.getDisplayName(currentUser.firstName, currentUser.lastName)}</Text>
             <TextInput keyboardType="number-pad" value={userScore} onChangeText={(text) => {this.updateScore('user', text) }} style={[UniversalStyles.styles.input, styles.textbox]} />
           </View>
@@ -80,7 +89,7 @@ export class AddGameScreen extends Component {
             <Text style={styles.versus}>Vs.</Text>
           </View>
           <View style={styles.matchupColumn}>
-            <ProfileIcon url={selectedPlayer.profilePicture} size={125} showCaption={false} callback={() => { navigation.navigate('SelectPlayer', {callback: this.selectPlayer, members: members}); }} />
+            <ProfileIcon url={selectedPlayer.profilePicture} size={125} showCaption={false} callback={() => { navigation.navigate('SelectPlayer', {callback: this.selectPlayer, members: selectableMembers}); }} />
             {selectedPlayer ? (
               <Text style={styles.text}>{Utils.getDisplayName(selectedPlayer.firstName, selectedPlayer.lastName)}</Text>
             ) : (

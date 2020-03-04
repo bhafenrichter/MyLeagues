@@ -6,6 +6,13 @@ import ProfileIcon from './../components/Common/ProfileIcon';
 import Utils from '../utils/Utils';
 
 class SelectPlayer extends Component {
+  
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Select Player'
+    };
+	};
+	
   constructor(props) {
 		super(props);
     this.state = {

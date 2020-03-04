@@ -8,6 +8,8 @@ import Utils from '../../utils/Utils';
 export class GameTile extends Component {
 
   componentDidMount() {
+    const {game} = this.props;
+    console.log(game);
   }
 
   viewGame = (game) => {
@@ -17,21 +19,32 @@ export class GameTile extends Component {
   render() {
     const {game, scrollType} = this.props;
     return (
-        <TouchableOpacity onPress={() => {this.viewGame(game)}}>
+        // <TouchableOpacity onPress={() => {this.viewGame(game)}}>
+        <TouchableOpacity>
           <View style={[UniversalStyles.styles.card, styles.container]}>
-            <Text style={styles.league}>{game.league}</Text>
+            { scrollType !== 'vertical' ? 
+              (
+                <Text style={styles.league}>{game.league}</Text>
+              )
+              : (
+                <View style={styles.league}></View>
+              )
+            }
+            
             <GameTileRow 
               isWin={game.homeScore > game.awayScore}
               name={Utils.getDisplayName(game.homeProfile ? game.homeProfile.firstName : '', game.homeProfile ? game.homeProfile.lastName : '')} 
               score={game.homeScore} 
               showName={scrollType === 'vertical'}
-              profilePicture={game.homeProfile.profilePicture} />
+              profilePicture={game.homeProfile.profilePicture}
+              record={game.homeProfile.wins + '-' + game.homeProfile.losses} />
             <GameTileRow 
               isWin={game.awayScore > game.homeScore}
               name={Utils.getDisplayName(game.awayProfile ? game.awayProfile.firstName : '', game.awayProfile ? game.awayProfile.lastName : '')} 
               score={game.awayScore} 
               showName={scrollType === 'vertical'} 
-              profilePicture={game.awayProfile.profilePicture} />
+              profilePicture={game.awayProfile.profilePicture}
+              record={game.awayProfile.wins + '-' + game.awayProfile.losses} />
             <Text style={styles.league}>{game.createdOn}</Text>
             <Text style={styles.league}>{Utils.getFirebaseDate(game.playedOn)}</Text>
           </View>

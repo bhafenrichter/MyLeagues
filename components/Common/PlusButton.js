@@ -24,10 +24,12 @@ const styles = StyleSheet.create({
   plus: {
     margin: 5,
     borderRadius: 45,
-    fontSize: 36,
+    fontSize: 42,
     borderColor: 'black',
     width: 48,
     height: 48,
     textAlign: "center",
+    justifyContent: 'center',
+    alignContent: 'center',
   }
 });

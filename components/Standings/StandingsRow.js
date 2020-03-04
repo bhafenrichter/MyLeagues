@@ -10,7 +10,8 @@ const StandingsRow = (props) => {
   const {name, wins, losses, navigation, profilePicture} = props;
 
   return (
-    <TouchableOpacity onPress={() => {navigation.navigate('Profile')}}>
+    // <TouchableOpacity onPress={() => {navigation.navigate('Profile')}}>
+    <TouchableOpacity>
       <View style={styles.container}>
         <View style={styles.profileContainer}>
           <ProfilePicture url={profilePicture} />

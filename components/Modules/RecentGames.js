@@ -5,14 +5,14 @@ import GameTile from './../Game/GameTile'
 import PlusButton from "./../Common/PlusButton"
 
 import { withNavigation } from 'react-navigation'
-import Utils from './../../Data/LeaguesAPI';
+import Utils from './../../utils/Utils';
 
 export class RecentGames extends Component {
   constructor(props) {
     super(props);
   }  
 
-  addGame() {
+  async addGame() {
     const {leagueUsers, navigation, leagueId} = this.props;
     navigation.navigate('AddGame', {members: leagueUsers, leagueId: leagueId});
   }

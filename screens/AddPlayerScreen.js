@@ -12,6 +12,12 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import { withNavigation } from 'react-navigation'
 
 class AddPlayerScreen extends Component {
+  
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Add Players'
+    };
+	};
   constructor(props) {
     super(props);
     this.state = {
@@ -24,11 +30,23 @@ class AddPlayerScreen extends Component {
     
     // grab the friends from facebook
     FacebookAPI.getFriends((response) => {
+      const existingMembers = this.props.navigation.state.params.members;
+
       let friends = [];
       let facebookFriends = response && response.friends ? response.friends.data : [];
       if (response && response.friends) {
         for (let i = 0; i < facebookFriends.length; i++) {
-          friends.push(facebookFriends[i]);
+          let alreadyInLeague = false;
+          for (let j = 0; j < existingMembers.length; j++) {
+            if (existingMembers[j].userid === facebookFriends[i].id) {
+              alreadyInLeague = true;
+            }
+          }
+
+          if (alreadyInLeague === false) {
+            friends.push(facebookFriends[i]);
+          }
+          
         }
       }
       this.setState({
