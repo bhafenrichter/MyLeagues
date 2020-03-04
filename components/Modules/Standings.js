@@ -12,12 +12,12 @@ import { FlatList } from 'react-native-gesture-handler'
 
 export class Standings extends Component {
   render() {
-    const {navigation, members} = this.props;
+    const {navigation, members, leagueId} = this.props;
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Standings</Text>
-          <PlusButton onPress={() => {navigation.navigate('AddPlayer', {leagueId: 1})}} />
+          <PlusButton onPress={() => {navigation.navigate('AddPlayer', {leagueId: leagueId})}} />
         </View>
 
         <StandingsHeaderRow name="" wins="W" losses="L" />

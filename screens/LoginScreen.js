@@ -41,7 +41,7 @@ static navigationOptions = ({ navigation }) => {
 
    // login to firebase
    const firebaseResult = await firebase.auth().signInWithCredential(credential);
-   
+
    // if the user previously existed, retrieve the user
    let myLeagueUser = await LeaguesAPI.getUser(firebaseResult.additionalUserInfo.profile.id);
 

@@ -47,7 +47,7 @@ export class LeagueScreen extends Component {
             </View>
 
             <View style={styles.module}>
-              <Standings members={members} />
+              <Standings members={members} leagueId={league.id} />
             </View>          
           </ScrollView>
         </SafeAreaView>        

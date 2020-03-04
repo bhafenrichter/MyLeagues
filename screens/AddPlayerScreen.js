@@ -21,7 +21,7 @@ class AddPlayerScreen extends Component {
       isLoading: false,
       selectedUsers: [],
     };
-
+    
     // grab the friends from facebook
     FacebookAPI.getFriends((response) => {
       let friends = [];
@@ -43,7 +43,7 @@ class AddPlayerScreen extends Component {
   addUsers = () => {
     const {selectedUsers} = this.state;
     const leagueId = this.props.navigation.getParam('leagueId', 0);
-    
+
     return LeaguesAPI.addUsersToLeague(selectedUsers, leagueId).then((results) => {
       this.setState({
         isLoading: false,
@@ -59,7 +59,7 @@ class AddPlayerScreen extends Component {
     } else { 
       searchResults = initialResults;
     }
-    console.log(searchResults);
+
     this.setState({
       searchText: text,
       searchResults: searchResults,

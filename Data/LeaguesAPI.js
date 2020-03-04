@@ -247,12 +247,35 @@ const services = {
       console.log('all records updated');
     });
   },
-  addUsersToLeague: (users, leagueId) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(function () {
-        const testData = '{ "id": "50", "name": "FIFA 20", "count": "12" }';
-        resolve(JSON.parse(testData));
-      }, 300);
+  addUsersToLeague: async (users, leagueId) => {
+    // add league references to user
+    var userPromises = [];
+    for (var i = 0; i < users.length; i++) {
+      userPromises.push(addLeagueToUser(users[i].id, leagueId));
+    }
+
+    Promise.all(userPromises).then((response) => {
+      console.log('users updated with league');
+    });
+
+    // add user leagues to league
+    var userLeaguePromises = [];
+
+    // add user leagues
+    for (var i = 0; i < users.length; i++) {
+      var emptyUser = getEmptyLeagueUser(users[i]);
+      var userLeaguePromise = firestore()
+        .collection('leagues')
+        .doc(leagueId)
+        .collection('members')
+        .doc(uuid())
+        .set(emptyUser);
+
+      userLeaguePromises.push(userLeaguePromise);
+    }
+
+    Promise.all(userLeaguePromises).then((response) => {
+      console.log('memebers within league updated');
     });
   },
   getUser: async (userId) => {
@@ -302,8 +325,8 @@ getLeagueUsersForGame = (game, league) => {
 
 getEmptyLeagueUser = (user) => {
   return {
-    firstName: user.firstName,
-    lastName: user.lastName,
+    firstName: user.firstName ? user.firstName : user.name.split(' ')[0],
+    lastName: user.lastName ? user.firslastNametName : user.name.split(' ')[1],
     wins: 0,
     losses: 0,
     ties: 0,
