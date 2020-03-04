@@ -9,6 +9,12 @@ import LeagueAPI from './../Data/LeaguesAPI';
 import CacheHelper from '../utils/CacheHelper';
 
 export class LeagueScreen extends Component {
+  
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: navigation.state.params.league.name
+    };
+  };
   constructor(props) {
     super(props);
 
@@ -19,6 +25,7 @@ export class LeagueScreen extends Component {
       refreshing: false,
       games: league.games,
     }
+    
   }
 
   onRefresh = () => {
@@ -35,13 +42,11 @@ export class LeagueScreen extends Component {
 
     return (
         <SafeAreaView style={styles.container}>
-          <Image source={{uri: 'https://cdn.pixabay.com/photo/2017/08/30/01/05/milky-way-2695569_960_720.jpg'}} style={styles.backgroundImage} blurRadius={2} />
           <ScrollView 
             refreshControl={
               <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
             }
             showsVerticalScrollIndicator={false}>
-            <Text style={styles.headerText}>{league.name}</Text>
             <View style={styles.module}>
               <RecentGames games={games} leagueUsers={members} scrollType="vertical" title="Recent Games" leagueId={league.id} />
             </View>
@@ -61,6 +66,7 @@ export default LeagueScreen
 
 const styles = StyleSheet.create({
   container: {
+    marginTop: 20,
     flex: 1,
     paddingLeft: 25,
     paddingRight: 25,
