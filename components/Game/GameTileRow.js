@@ -8,11 +8,11 @@ import PropTypes from "prop-types";
 
 
 const GameTileRow = (props) => {
-  const {name, score, showName, isWin} = props;
+  const {name, score, showName, isWin, profilePicture} = props;
   if (showName) {
       return (
         <View style={[styles.base, styles.row]}>
-          <ProfilePicture />
+          <ProfilePicture url={profilePicture} />
           <Text style={[styles.text, styles.name, isWin ? styles.win : styles.lose]}>
             {name}
             <Text style={[styles.text, styles.record, isWin ? styles.win : styles.lose]}>  8-9</Text>
@@ -24,7 +24,7 @@ const GameTileRow = (props) => {
   else {
     return (
       <View style={[styles.base, styles.tile]}>
-        <ProfilePicture />
+        <ProfilePicture url={profilePicture} />
         <Text></Text>
         <Text style={[styles.text, isWin ? styles.win : styles.lose]}>{score}</Text>
       </View>

@@ -25,7 +25,7 @@ export class Standings extends Component {
           data={members}
           keyExtractor={item => item.id} 
           renderItem={({item}) => 
-            <StandingsRow name={Utils.getDisplayName(item.firstName, item.lastName)} wins={item.wins} losses={item.losses} />} 
+            <StandingsRow name={Utils.getDisplayName(item.firstName, item.lastName)} wins={item.wins} losses={item.losses} profilePicture={item.profilePicture} />} 
           />
       </View>
     )

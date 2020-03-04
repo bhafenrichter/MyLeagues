@@ -24,12 +24,14 @@ export class GameTile extends Component {
               isWin={game.homeScore > game.awayScore}
               name={Utils.getDisplayName(game.homeProfile ? game.homeProfile.firstName : '', game.homeProfile ? game.homeProfile.lastName : '')} 
               score={game.homeScore} 
-              showName={scrollType === 'vertical'} />
+              showName={scrollType === 'vertical'}
+              profilePicture={game.homeProfile.profilePicture} />
             <GameTileRow 
               isWin={game.awayScore > game.homeScore}
               name={Utils.getDisplayName(game.awayProfile ? game.awayProfile.firstName : '', game.awayProfile ? game.awayProfile.lastName : '')} 
               score={game.awayScore} 
-              showName={scrollType === 'vertical'} />
+              showName={scrollType === 'vertical'} 
+              profilePicture={game.awayProfile.profilePicture} />
             <Text style={styles.league}>{game.createdOn}</Text>
             <Text style={styles.league}>{Utils.getFirebaseDate(game.playedOn)}</Text>
           </View>

@@ -7,13 +7,13 @@ import ProfilePicture from '../Common/ProfilePicture'
 import UniversalStyles from './../../utils/UniversalStyles';
 
 const StandingsRow = (props) => {
-  const {name, wins, losses, navigation} = props;
+  const {name, wins, losses, navigation, profilePicture} = props;
 
   return (
     <TouchableOpacity onPress={() => {navigation.navigate('Profile')}}>
       <View style={styles.container}>
         <View style={styles.profileContainer}>
-          <ProfilePicture />
+          <ProfilePicture url={profilePicture} />
           <Text style={[styles.profileText, styles.text]}>{name}</Text>
         </View>
 

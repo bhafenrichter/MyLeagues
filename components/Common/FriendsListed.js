@@ -34,7 +34,7 @@ const FriendsListed = (props) => {
     for (var i = 0; i < NAMES_IN_LIST; i++) {
       if (friends.length > i) {
         friendsListed.push(friends[i].firstName);
-        profilePictures.push(<ProfilePicture style={{position: 'absolute', top: 0, left: i * 15, width: 20, height: 20, }} />);
+        profilePictures.push(<ProfilePicture style={{position: 'absolute', top: 0, left: i * 15, width: 20, height: 20, }} url={friends[i].profilePicture } />);
       }      
     }
   }

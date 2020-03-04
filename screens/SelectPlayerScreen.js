@@ -28,7 +28,7 @@ class SelectPlayer extends Component {
                 data={members}
                 renderItem={({item, index}) => (
                   <View style={styles.itemWrapper}>
-                    <ProfileIcon size={70} name={ Utils.getDisplayName(item.firstName, item.lastName)} callback={() => {callback(item); navigation.goBack(); }}  />
+                    <ProfileIcon url={item.profilePicture} size={70} name={ Utils.getDisplayName(item.firstName, item.lastName)} callback={() => {callback(item); navigation.goBack(); }}  />
                   </View>
                 )}
                 keyExtractor={item => item.id}

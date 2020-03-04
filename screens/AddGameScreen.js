@@ -35,6 +35,7 @@ export class AddGameScreen extends Component {
 
     Utils.getCurrentUser().then((user) => {
       this.setState({currentUser: user});
+      console.log(user);
     });
   }
 
@@ -71,7 +72,7 @@ export class AddGameScreen extends Component {
       <View style={styles.container}>
         <View style={styles.matchup}>
           <View style={styles.matchupColumn}>
-            <ProfileIcon size={125} showCaption={false} url={currentUser.profilePicture} />
+            <ProfileIcon size={125} showCaption={false} url={currentLeagueUser.profilePicture} />
             <Text style={styles.text}>{Utils.getDisplayName(currentUser.firstName, currentUser.lastName)}</Text>
             <TextInput keyboardType="number-pad" value={userScore} onChangeText={(text) => {this.updateScore('user', text) }} style={[UniversalStyles.styles.input, styles.textbox]} />
           </View>
@@ -79,7 +80,7 @@ export class AddGameScreen extends Component {
             <Text style={styles.versus}>Vs.</Text>
           </View>
           <View style={styles.matchupColumn}>
-            <ProfileIcon size={125} showCaption={false} callback={() => { navigation.navigate('SelectPlayer', {callback: this.selectPlayer, members: members}); }} />
+            <ProfileIcon url={selectedPlayer.profilePicture} size={125} showCaption={false} callback={() => { navigation.navigate('SelectPlayer', {callback: this.selectPlayer, members: members}); }} />
             {selectedPlayer ? (
               <Text style={styles.text}>{Utils.getDisplayName(selectedPlayer.firstName, selectedPlayer.lastName)}</Text>
             ) : (
