@@ -44,7 +44,7 @@ static navigationOptions = ({ navigation }) => {
 
    // if the user previously existed, retrieve the user
    let myLeagueUser = await LeaguesAPI.getUser(firebaseResult.additionalUserInfo.profile.id);
-
+   console.log(myLeagueUser);
    // if user is new, create a new account
    if (!myLeagueUser.data()) {
      myLeagueUser = await LeaguesAPI.createUser(firebaseResult.additionalUserInfo.profile);
