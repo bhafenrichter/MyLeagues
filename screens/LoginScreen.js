@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, TouchableOpacity, StyleSheet } from 'react-native'
+import { Text, View, TouchableOpacity, StyleSheet, ImageBackground, Image } from 'react-native'
 
 import { LoginManager, AccessToken } from 'react-native-fbsdk';
 import { firebase } from '@react-native-firebase/auth';
@@ -62,12 +62,20 @@ static navigationOptions = ({ navigation }) => {
 
   render() {
     return (
-      <View style={styles.container}>
-        <MyImage />
-        <TouchableOpacity onPress={() => { this.login() }} style={styles.facebookButton}>
-          <Text style={styles.facebookButtonText}>Login with Facebook</Text>
-        </TouchableOpacity>
-      </View>
+      <ImageBackground source={require('./../Content/splashscreen-background.png')} style={{width: '100%', height: '100%'}}>
+        <View style={styles.container}>
+          <View>
+            <Image source={require('./../Content/logo-nobackground.png')} style={styles.logo}  />
+            <Text style={styles.logoSubtitle}>MyLeagues</Text>
+            <Text style={styles.version}>v 0.1</Text>
+          </View>
+
+          <TouchableOpacity onPress={() => { this.login() }} style={styles.facebookButton}>
+            <Text style={styles.facebookButtonText}>Login with Facebook</Text>
+          </TouchableOpacity>
+        </View>
+      </ImageBackground>
+     
     )
   }
 }
@@ -87,8 +95,22 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   logo: {
-
+    width: 150,
+    height: 150,
   }, 
+  logoSubtitle: {
+    textAlign: 'center',
+    color: 'white',
+    fontSize: 36,
+    borderBottomWidth: 1,
+    borderBottomColor: 'white',
+    paddingBottom: 20,
+  },
+  version: {
+    marginTop: 20,
+    textAlign: 'center',
+    color: 'white',
+  },
   container: {
     flexDirection: 'column',
     justifyContent: 'space-evenly',

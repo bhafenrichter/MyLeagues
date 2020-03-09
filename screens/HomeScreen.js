@@ -64,8 +64,7 @@ class HomeScreen extends Component {
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
-          }
-          >
+          }>
 
           <Text style={styles.headerText}>MyLeagues</Text>
           <RecentGames scrollType="horizontal" title="Recent Games" games={recentGames} />

@@ -34,7 +34,6 @@ const GameTileRow = (props) => {
 }
 
 GameTileRow.propTypes = {
-  scrollType: PropTypes.string.isRequired,
   score: PropTypes.string.isRequired,
   name: PropTypes.string,
 }

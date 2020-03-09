@@ -16,8 +16,6 @@ const ProfilePicture = (props) => {
   });
   const picStyle = [defaultStyle.default, style];
 
-  // pick a random picture
-  const id = getRandomInt(70);
   return (
     <MyImage url={url} style={picStyle} />
   )
@@ -28,7 +26,6 @@ function getRandomInt(max) {
 }
 
 ProfilePicture.propTypes = {
-  style: PropTypes.style,
   url: PropTypes.string,
 };
 
