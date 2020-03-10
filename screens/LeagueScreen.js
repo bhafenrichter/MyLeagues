@@ -9,36 +9,71 @@ import LeagueAPI from './../Data/LeaguesAPI';
 import CacheHelper from '../utils/CacheHelper';
 
 export class LeagueScreen extends Component {
-  
-  static navigationOptions = ({ navigation }) => {
-    return {
-      title: navigation.state.params.league.name
-    };
-  };
   constructor(props) {
     super(props);
 
-    const {league} = this.props.navigation.state.params;
-
+    const {leagueid} = this.props.navigation.state.params;
+    CacheHelper.get(CacheHelper.LEAGUES).then((leagues) => {
+      for (var i = 0; i < leagues.length; i++) {
+        if (leagues[i].id === leagueid) {
+          this.setState({
+            league: leagues[i],
+            games: leagues[i].games,
+            members: leagues[i].members,
+          });
+        }
+      }
+    })
     this.state = {
       league: {},
       refreshing: false,
-      games: league.games,
+      games: [],
+      members: [],
     }
-    
   }
+  
+  // static navigationOptions = ({ navigation }) => {
+  //   const title = this.state.league ? this.state.league.name : '';
+  //   return {
+  //     title: title
+  //   };
+  // };
 
-  onRefresh = () => {
-    const {league} = this.props.navigation.state.params;
-    LeagueAPI.getLeagueGames(league.id).then((response) => {
+  onRefresh = async () => {
+    const {leagueid} = this.props.navigation.state.params;
+    
+    let refreshedLeague = {};
+    await LeagueAPI.getLeague(leagueid, true).then((response) => {
+      this.setState({ league: response });
+      refreshedLeague = response;
+    });
+
+    await LeagueAPI.getMembersForLeague(leagueid).then((response) => {
+      this.setState({ members: response });
+      refreshedLeague.members = response;
+    });
+
+    await LeagueAPI.getLeagueGames(refreshedLeague).then((response) => {
       this.setState({ games: response });
-    });  
+      refreshedLeague.games = response;
+    });
+
+    let savedLeagues = await CacheHelper.get(CacheHelper.LEAGUES);
+    this.setState({league: refreshedLeague});
+  
+    for (var i = 0; i < savedLeagues.length; i++) {
+      let current = savedLeagues[i];
+      if (current.id === refreshedLeague.id) {
+        savedLeagues[i] = refreshedLeague;
+      }
+    }
+
+    CacheHelper.set(CacheHelper.LEAGUES, savedLeagues);
   }
 
   render() {
-    const {league} = this.props.navigation.state.params;
-    const {refreshing, games} = this.state;
-    const {members} = league;
+    const {leagueid} = this.props.navigation.state.params;
+    const {refreshing, games, members} = this.state;
 
     return (
         <SafeAreaView style={styles.container}>
@@ -48,11 +83,11 @@ export class LeagueScreen extends Component {
             }
             showsVerticalScrollIndicator={false}>
             <View style={styles.module}>
-              <RecentGames games={games} leagueUsers={members} scrollType="vertical" title="Recent Games" leagueId={league.id} showAddGame={true} />
+              <RecentGames games={games} leagueUsers={members} scrollType="vertical" title="Recent Games" leagueId={leagueid} showAddGame={members.length > 1} />
             </View>
 
             <View style={styles.module}>
-              <Standings members={members} leagueId={league.id} />
+              <Standings members={members} leagueId={leagueid} />
             </View>          
           </ScrollView>
         </SafeAreaView>        

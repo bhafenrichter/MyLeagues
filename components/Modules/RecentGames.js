@@ -18,7 +18,6 @@ export class RecentGames extends Component {
 
   render() {
     const {games, title, scrollType, showAddGame} = this.props;
-
     return (
       <View style={styles.container}>
         <View style={styles.header}>
@@ -41,6 +40,15 @@ export class RecentGames extends Component {
             showsHorizontalScrollIndicator={false}
             />
         </View>
+        {
+          games && games.length === 0 ? (
+            <View>
+              <Text style={styles.emptyText}>No games have been played yet.</Text>
+            </View>
+          ) : (
+            <View></View>
+          )
+        }
       </View>
     )
   }
@@ -65,5 +73,8 @@ const styles = StyleSheet.create({
     fontSize: 36,
   },
   container: {
+  },
+  emptyText: {
+    textAlign: 'center',
   }
 })

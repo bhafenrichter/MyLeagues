@@ -11,7 +11,7 @@ export class LeagueTile extends Component {
     const {league, navigation} = this.props;
 
     return (
-      <TouchableOpacity onPress={ () => navigation.navigate('League', {league: league})}>
+      <TouchableOpacity onPress={ () => navigation.navigate('League', {leagueid: league.id})}>
         <View style={[UniversalStyles.styles.card, styles.container]}>
           <View>
             {/* <MyImage style={styles.image} /> */}

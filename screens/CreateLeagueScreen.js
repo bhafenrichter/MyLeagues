@@ -1,7 +1,5 @@
 import React, { Component } from 'react'
 import { View, StyleSheet, KeyboardAvoidingView } from 'react-native'
-import UploadImage from '../components/Modules/UploadImage'
-import SelectLeagueType from '../components/Modules/SelectLeagueType'
 import { TextInput } from 'react-native-gesture-handler'
 import { withNavigation } from 'react-navigation';
 
@@ -11,6 +9,12 @@ import UniversalStyles from './../utils/UniversalStyles';
 import LeaguesAPI from './../Data/LeaguesAPI';
 
 export class CreateLeagueScreen extends Component {
+  
+  static navigationOptions = ({ navigation }) => {
+    return {
+      title: 'Create League'
+    };
+  };
 
   constructor(props) {
     super(props);
@@ -34,13 +38,13 @@ export class CreateLeagueScreen extends Component {
 
     return (
       <KeyboardAvoidingView style={styles.container} enabled behavior="height">
-        <UploadImage />
+        {/* <UploadImage /> */}
         <TextInput 
           style={[styles.input, UniversalStyles.styles.input]} 
           value={name} 
           placeholder="League Name"
           onChangeText={(name) => this.setState({name})} />
-        <SelectLeagueType />
+        {/* <SelectLeagueType /> */}
         <LoadingButton style={UniversalStyles.button} title="Create" onSubmit={this.createLeague} onComplete={() => {navigation.goBack()}} />
       </KeyboardAvoidingView>
     )
@@ -60,5 +64,6 @@ const styles = StyleSheet.create({
     marginTop: 30,
     textAlign: 'center',
     width: '50%',
+    marginBottom: 30,
   }
 });

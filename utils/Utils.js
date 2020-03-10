@@ -44,6 +44,7 @@ export default {
   },
 
   getUserInformation(userid, members) {
+    console.log(members);
     for (var i = 0; i < members.length; i++) {
       const current = members[i];
       if (current.id === userid) {

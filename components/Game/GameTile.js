@@ -9,7 +9,6 @@ export class GameTile extends Component {
 
   componentDidMount() {
     const {game} = this.props;
-    console.log(game);
   }
 
   viewGame = (game) => {

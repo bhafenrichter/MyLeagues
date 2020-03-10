@@ -20,7 +20,7 @@ class ProfileIcon extends Component {
 	static defaultProps = {
 		size: 75,
 		showCaption: true,
-		url: 'https://i.pravatar.cc/36?img=1',
+		url: 'https://via.placeholder.com/150x150',
 	}
 
 	selectProfile = (name, url) => {

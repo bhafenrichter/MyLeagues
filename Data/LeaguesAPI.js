@@ -12,9 +12,8 @@ const services = {
   getLeagues: async (userId) => {
 
     // get the leagues the user is currently in
-    const currentUser = await Utils.getCurrentUser(true); 
-
-    console.log(currentUser.leagues);
+    const currentUser = await Utils.getCurrentUser(true);
+    console.log(currentUser);
     // query the leagues
     const request = firestore()
       .collection('leagues')
@@ -37,12 +36,7 @@ const services = {
           league.ref.collection('members').get().then((subcollection) => {
             const members = [];
             subcollection.forEach(function (member) {
-              members.push({
-                ...{
-                  id: member.id
-                },
-                ...member.data()
-              });
+              members.push(member.data());
             });
             resolve(members);
           });
@@ -110,6 +104,9 @@ const services = {
 
   getRecentGames: async (leagueId) => {
     const leagues = await CacheHelper.get(CacheHelper.LEAGUES);
+
+    if (!leagues) { return []; }
+    
     let games = [];
     for (var i = 0; i < leagues.length; i++) {
       const leagueGames = leagues[i].games;
@@ -123,15 +120,12 @@ const services = {
     }
     return games;
   },
-  getLeagueGames: async (leagueId) => {
+  getLeagueGames: async (league) => {
     let games = [];
-
-    // grabs from cache
-    const league = await getLeague(leagueId);
 
     return firestore()
       .collection('leagues')
-      .doc(leagueId)
+      .doc(league.id)
       .collection('games')
       .orderBy('playedOn', 'desc')
       .limit(GAMES_IN_LEAGUE_FEED)
@@ -150,20 +144,10 @@ const services = {
         return games;
       });
   },
-  getLeaguesForSearch: (search) => {
-    const testData = '[{ "id": "1", "name": "FIFA 20", "count": "12" }, { "id": "2", "name": "FIFA 19", "count": "20" }, { "id": "3", "name": "Madden 20", "count": "34" }, { "id": "4", "name": "Madden 19", "count": "2" } ]';
-    return JSON.parse(testData);
-  },
-  getUsersForSearch: (search) => {
-    return new Promise((resolve, reject) => {
-      setTimeout(function () {
-        const testData = '[{ "id": "1", "name": "Brandon Hafenrichter" }, { "id": "4", "name": "Connor Hafenrichter" }, { "id": "2", "name": "Brian Horncastle" }, { "id": "3", "name": "Graham Lehman" } ]';
-        resolve(JSON.parse(testData));
-      }, 300);
-    });
-  },
   createLeague: async (leaguetype, name) => {
-    const currentUser = await Utils.getCurrentUser();
+    let currentUser = await Utils.getCurrentUser();
+    const id = uuid();
+    currentUser.id = id;
     const leagueUser = getEmptyLeagueUser(currentUser);
     const leagueid = uuid();
 
@@ -224,18 +208,13 @@ const services = {
 
     var opponentRecord = await opponentRecordPromise
       .get().then(function (response) {
-        console.log(response);
         return response.data()[opponentRecordToUpdate];
       });
 
     var userRecord = await userRecordPromise
       .get().then(function (response) {
-      console.log(response);
       return response.data()[userRecordToUpdate];
     });
-
-    console.log(opponentRecord);
-    console.log(userRecord);
 
     var userRecordPromise = userRecordPromise
       .update({[userRecordToUpdate]: userRecord + 1});
@@ -263,12 +242,14 @@ const services = {
 
     // add user leagues
     for (var i = 0; i < users.length; i++) {
+      var uuid = uuid();
+      users[i].id = users[i];
       var emptyUser = getEmptyLeagueUser(users[i]);
       var userLeaguePromise = firestore()
         .collection('leagues')
         .doc(leagueId)
         .collection('members')
-        .doc(uuid())
+        .doc(uuid)
         .set(emptyUser);
 
       userLeaguePromises.push(userLeaguePromise);
@@ -294,25 +275,47 @@ const services = {
     };
 
     return await createQuery('users', user.id, newUser);
+  },
+
+  getMembersForLeague: async (id) => {
+    return firestore()
+      .collection('leagues')
+      .doc(id)
+      .collection('members')
+      .get().then(async (response) => {
+        let members = [];
+        response.forEach((member) => {
+          let memberData = member.data();
+          members.push(memberData);
+        });
+        console.log(members);
+        return members;
+      });
+  },
+
+  getLeague: async (id, fromServer) => {
+    if (!fromServer) {
+      return CacheHelper.get(CacheHelper.LEAGUES).then((response) => {
+  
+        for (var i = 0; i < response.length; i++) {
+          if (response[i].id == id) {
+            return response[i];
+          }
+          return {};
+        }
+      });
+    } else {
+      return firestore()
+        .collection('leagues')
+        .doc(id).get().then(async (response) => {
+          let league = response.data();
+          return league;
+        });
+    }
   }
 }
 
 // helper methods
-
-
-getLeague = async (id) => {
-  return CacheHelper.get(CacheHelper.LEAGUES).then((response) => {
-
-    for (var i = 0; i < response.length; i++) {
-      if (response[i].id == id) {
-        return response[i];
-      }
-      return {};
-    }
-  });
-};
-
-
 getLeagueUsersForGame = (game, league) => {
   const homeId = game.homeId;
   const awayId = game.awayId;
@@ -325,8 +328,9 @@ getLeagueUsersForGame = (game, league) => {
 
 getEmptyLeagueUser = (user) => {
   return {
+    id: user.id,
     firstName: user.firstName ? user.firstName : user.name.split(' ')[0],
-    lastName: user.lastName ? user.firslastNametName : user.name.split(' ')[1],
+    lastName: user.lastName ? user.lastName : user.name.split(' ')[1],
     wins: 0,
     losses: 0,
     ties: 0,
