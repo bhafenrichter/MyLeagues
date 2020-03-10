@@ -5,7 +5,6 @@ import GameTile from './../Game/GameTile'
 import PlusButton from "./../Common/PlusButton"
 
 import { withNavigation } from 'react-navigation'
-import Utils from './../../utils/Utils';
 
 export class RecentGames extends Component {
   constructor(props) {
@@ -18,13 +17,18 @@ export class RecentGames extends Component {
   }
 
   render() {
-    const {games, title, scrollType} = this.props;
+    const {games, title, scrollType, showAddGame} = this.props;
 
     return (
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>{title}</Text>
-          <PlusButton onPress={() => this.addGame()} />
+          { showAddGame ? (
+            <PlusButton onPress={() => this.addGame()} />
+          ) : (
+            <View></View>
+          )}
+          
         </View>
         <View>
           <FlatList 

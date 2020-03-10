@@ -4,6 +4,7 @@ import { View, Text, StyleSheet } from 'react-native';
 import ProfileIcon from './../components/Common/ProfileIcon';
 
 import { TextInput } from 'react-native-gesture-handler';
+import { ToastAndroid } from 'react-native';
 
 import UniversalStyles from './../utils/UniversalStyles';
 import Utils from './../utils/Utils';
@@ -70,6 +71,14 @@ export class AddGameScreen extends Component {
   }
 
   submitGame = (leagueid, userid, opponentid, homeScore, awayScore) => {
+    console.log(opponentid);
+    console.log(homeScore);
+    console.log(awayScore);
+    if(!opponentid || !homeScore || !awayScore) {
+      ToastAndroid.show('Please fill in all input fields.', ToastAndroid.SHORT);
+      return new Promise((resolve, reject) => { resolve(false); });
+    }
+
     return LeaguesAPI.createGame(leagueid, userid, opponentid, homeScore, awayScore);
   }
 
@@ -99,7 +108,7 @@ export class AddGameScreen extends Component {
           </View>
         </View>
         <View style={styles.footer}>
-          <LoadingButton onSubmit={() => this.submitGame(leagueId, currentLeagueUser.id, selectedPlayer.id, userScore, opponentScore)} onComplete={() => navigation.goBack()} title="Create" />
+          <LoadingButton onSubmit={() => this.submitGame(leagueId, currentLeagueUser.id, selectedPlayer.id, userScore, opponentScore)} onComplete={(status) => { if (status !== false) navigation.goBack() }} title="Create" />
         </View>
       </View>
 

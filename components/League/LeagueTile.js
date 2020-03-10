@@ -14,7 +14,7 @@ export class LeagueTile extends Component {
       <TouchableOpacity onPress={ () => navigation.navigate('League', {league: league})}>
         <View style={[UniversalStyles.styles.card, styles.container]}>
           <View>
-            <MyImage style={styles.image} />
+            {/* <MyImage style={styles.image} /> */}
           </View>
           <View style={styles.information}>
             <Text style={styles.league}>{league.name}</Text>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start',
   },
   league: {
-    fontSize: 18,
+    fontSize: 24,
   },
   image: {
     marginTop: 10,

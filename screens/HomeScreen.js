@@ -3,7 +3,6 @@ import { Text, SafeAreaView, RefreshControl, StyleSheet, ScrollView } from 'reac
 import RecentGames from '../components/Modules/RecentGames';
 import LeagueList from '../components/Modules/LeagueList';
 import ViewGame from '../components/Modules/ViewGame';
-import AddGame from '../components/Modules/AddGame';
 
 import UniversalStyles from './../utils/UniversalStyles';
 import LeagueAPI from './../Data/LeaguesAPI';
@@ -59,15 +58,14 @@ class HomeScreen extends Component {
 
     return (
       <SafeAreaView style={styles.container}>
-        <ViewGame />
-        <ScrollView 
+        <ScrollView
           showsVerticalScrollIndicator={false}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={this.onRefresh} />
           }>
 
           <Text style={styles.headerText}>MyLeagues</Text>
-          <RecentGames scrollType="horizontal" title="Recent Games" games={recentGames} />
+          <RecentGames scrollType="horizontal" title="Recent Games" games={recentGames} showAddGame={false} />
           <LeagueList leagues={leagues} />
         </ScrollView>
       </SafeAreaView>

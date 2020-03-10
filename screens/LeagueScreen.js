@@ -48,7 +48,7 @@ export class LeagueScreen extends Component {
             }
             showsVerticalScrollIndicator={false}>
             <View style={styles.module}>
-              <RecentGames games={games} leagueUsers={members} scrollType="vertical" title="Recent Games" leagueId={league.id} />
+              <RecentGames games={games} leagueUsers={members} scrollType="vertical" title="Recent Games" leagueId={league.id} showAddGame={true} />
             </View>
 
             <View style={styles.module}>

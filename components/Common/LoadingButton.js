@@ -28,11 +28,11 @@ class LoadingButton extends Component {
     this.setState({
       isLoading: true,
     });
-    onSubmit().then(() => {
+    onSubmit().then((args) => {
       this.setState({
         isLoading: false,
       });
-      onComplete();
+      onComplete(args);
     });
   }
 
