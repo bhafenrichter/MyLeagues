@@ -13,7 +13,10 @@ const services = {
 
     // get the leagues the user is currently in
     const currentUser = await Utils.getCurrentUser(true);
-    console.log(currentUser);
+
+    if (currentUser.leagues.length === 0) { 
+      return;
+    }
     // query the leagues
     const request = firestore()
       .collection('leagues')
@@ -146,8 +149,8 @@ const services = {
   },
   createLeague: async (leaguetype, name) => {
     let currentUser = await Utils.getCurrentUser();
+    console.log(currentUser);
     const id = uuid();
-    currentUser.id = id;
     const leagueUser = getEmptyLeagueUser(currentUser);
     const leagueid = uuid();
 
@@ -157,7 +160,7 @@ const services = {
       subtype: leaguetype,
       createdOn: new Date(),
     };
-
+    
     await addLeagueToUser(currentUser.id, leagueid);
 
     return await createQuery('leagues', leagueid, newLeague, [{
@@ -242,14 +245,13 @@ const services = {
 
     // add user leagues
     for (var i = 0; i < users.length; i++) {
-      var uuid = uuid();
-      users[i].id = users[i];
+      users[i].id = uuid();
       var emptyUser = getEmptyLeagueUser(users[i]);
       var userLeaguePromise = firestore()
         .collection('leagues')
         .doc(leagueId)
         .collection('members')
-        .doc(uuid)
+        .doc(emptyUser.id)
         .set(emptyUser);
 
       userLeaguePromises.push(userLeaguePromise);
