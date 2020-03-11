@@ -150,7 +150,7 @@ const services = {
   createLeague: async (leaguetype, name) => {
     let currentUser = await Utils.getCurrentUser();
     console.log(currentUser);
-    const id = uuid();
+
     const leagueUser = getEmptyLeagueUser(currentUser);
     const leagueid = uuid();
 
@@ -245,7 +245,6 @@ const services = {
 
     // add user leagues
     for (var i = 0; i < users.length; i++) {
-      users[i].id = uuid();
       var emptyUser = getEmptyLeagueUser(users[i]);
       var userLeaguePromise = firestore()
         .collection('leagues')
@@ -330,7 +329,7 @@ getLeagueUsersForGame = (game, league) => {
 
 getEmptyLeagueUser = (user) => {
   return {
-    id: user.id,
+    id: uuid(),
     firstName: user.firstName ? user.firstName : user.name.split(' ')[0],
     lastName: user.lastName ? user.lastName : user.name.split(' ')[1],
     wins: 0,
@@ -370,7 +369,7 @@ createQuery = async (collection, id, obj, subcollections) => {
 
           for (var j = 0; j < current.data.length; j++) {
             let subcollectionData = current.data[j];
-            let subcollectionDocId = uuid();
+            let subcollectionDocId = current.data[j].id ? current.data[j].id : uuid();
             console.log('writing ' + JSON.stringify(subcollectionData));
             return firestore().collection(collection).doc(id).collection(current.subcollection).doc(subcollectionDocId).set(subcollectionData).then(function () {
               console.log(subcollections[i].subcollection + " subcollection successfully written!");
