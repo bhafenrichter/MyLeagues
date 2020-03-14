@@ -2,6 +2,8 @@ import { StyleSheet } from "react-native";
 
 const colors = {
   grey: 'grey',
+  purple: '#4135A7',
+  red: '#DD4AC4',
 }
 
 const elevation = 10;
