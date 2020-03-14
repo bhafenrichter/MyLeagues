@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { StyleSheet, Text, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { NeomorphBox } from 'react-native-neomorph-shadows';
 
 import PropTypes from 'prop-types'
 
@@ -42,11 +43,24 @@ class LoadingButton extends Component {
 
     return (
       <TouchableOpacity style={[styles.container, style]} onPress={() => {this.onPress()}}>
-        {isLoading ? (
-          <ActivityIndicator />
-        ) : (
-          <Text style={styles.text}>{title}</Text>
-        )}
+        <NeomorphBox
+          outer // <- enable shadow inside of neomorph
+          useSvg
+          swapShadowLevel // <- change zIndex of each shadow color
+          style={{
+            shadowRadius: 3,
+            borderRadius: 25,
+            backgroundColor: '#DDDDDD',
+            width: 200,
+            height: 40,
+          }}
+          >
+          {isLoading ? (
+            <ActivityIndicator style={styles.text} />
+          ) : (
+            <Text style={styles.text}>{title}</Text>
+          )}
+        </NeomorphBox>
       </TouchableOpacity>
     );
 
@@ -57,13 +71,14 @@ export default LoadingButton;
 
 const styles = StyleSheet.create({
   container: {
-    borderWidth: 1,
-    borderColor: 'black',
-    backgroundColor: 'white',
-    borderRadius: 15,
-    padding: 10,
+    alignContent: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
+    
   },
   text: {
+    padding: 10,
     textAlign: 'center',
+    fontSize: 18,
   }
 });

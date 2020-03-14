@@ -124,6 +124,7 @@ export default withNavigation(AddGameScreen)
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#DDDDDD',
     flex: 1,
     flexDirection: 'column',
     alignContent: 'center',
