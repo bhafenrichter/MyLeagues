@@ -18,7 +18,6 @@ export class GameTile extends Component {
   render() {
     const {game, scrollType} = this.props;
     return (
-        // <TouchableOpacity onPress={() => {this.viewGame(game)}}>
         <TouchableOpacity>
           <View style={[UniversalStyles.styles.card, styles.container]}>
             { scrollType !== 'vertical' ? 

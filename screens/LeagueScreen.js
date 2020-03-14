@@ -103,7 +103,7 @@ export default LeagueScreen
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
+    backgroundColor: '#DDDDDD',
     flex: 1,
     paddingLeft: 25,
     paddingRight: 25,

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { Text, SafeAreaView, RefreshControl, StyleSheet, ScrollView } from 'react-native';
 import RecentGames from '../components/Modules/RecentGames';
 import LeagueList from '../components/Modules/LeagueList';
-import ViewGame from '../components/Modules/ViewGame';
 
 import UniversalStyles from './../utils/UniversalStyles';
 import LeagueAPI from './../Data/LeaguesAPI';
@@ -77,6 +76,7 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: '#DDDDDD',
     flex: 1,
     paddingLeft: 25,
     paddingRight: 25,

@@ -1,19 +1,30 @@
 import React from 'react'
 import { Text, TouchableOpacity, StyleSheet } from 'react-native'
-import LinearGradient from 'react-native-linear-gradient';
+import { NeomorphBox } from 'react-native-neomorph-shadows';
 
 import PropTypes from 'prop-types'
-import UniversalStyles from './../../utils/UniversalStyles';
 
 const PlusButton = (props) => {
   const {onPress} = props;
 
   return (
-    <TouchableOpacity onPress={onPress}>
-      <LinearGradient start={{x: 0, y: 0}} end={{x: 1, y: 0}} colors={[UniversalStyles.colors.red, UniversalStyles.colors.purple]} style={styles.plus}>
+    <NeomorphBox
+      outer // <- enable shadow inside of neomorph
+      useSvg
+      swapShadowLevel // <- change zIndex of each shadow color
+      style={{
+        shadowRadius: 3,
+        borderRadius: 25,
+        backgroundColor: '#DDDDDD',
+        width: 50,
+        height: 50,
+        margin: 5,
+      }}
+      >
+      <TouchableOpacity onPress={onPress}>
         <Text style={[styles.plusText]}>+</Text>
-      </LinearGradient>
-    </TouchableOpacity>
+      </TouchableOpacity>
+    </NeomorphBox>
   )
 }
 
@@ -35,6 +46,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignContent: 'center',
     fontSize: 42,
-    color: 'white',
+    color: 'grey',
   }
 });
