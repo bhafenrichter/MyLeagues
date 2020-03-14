@@ -41,7 +41,7 @@ class HomeScreen extends Component {
 
 
   onRefresh = () => {
-    LeagueAPI.getLeagues(1).then((response) => {
+    LeagueAPI.getLeagues().then((response) => {
       CacheHelper.set(CacheHelper.LEAGUES, response);
       this.setState({
         leagues: response,

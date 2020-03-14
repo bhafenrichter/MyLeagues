@@ -9,7 +9,7 @@ const GAMES_IN_HOME_FEED = 10;
 
 
 const services = {
-  getLeagues: async (userId) => {
+  getLeagues: async () => {
 
     // get the leagues the user is currently in
     const currentUser = await Utils.getCurrentUser(true);
@@ -18,91 +18,59 @@ const services = {
       return;
     }
     // query the leagues
-    const request = firestore()
-      .collection('leagues')
-      .where('id', 'in', currentUser.leagues);
+    let leagues = await services.getLeaguesForUser(currentUser.leagues, true);
 
-    return request.get().then((response) => {
-      let leagues = [];
-      response.forEach((doc) => {
-        const league = doc;
-        leagues.push(league);
-      });
-      return leagues;
-    }).then((leagues) => {
-      // grab the members subcollection
-      let membersPromises = [];
-      let gamesPromises = [];
-      let leaguePromises = [];
-      leagues.forEach((league) => {
-        membersPromises.push(new Promise(function (resolve, reject) {
-          league.ref.collection('members').get().then((subcollection) => {
-            const members = [];
-            subcollection.forEach(function (member) {
-              members.push(member.data());
-            });
-            resolve(members);
-          });
-        }));
-      });
+    // grab the members subcollection
+    let membersPromises = [];
+    let gamesPromises = [];
 
-      // grab the games subcollection
-      leagues.forEach((league) => {
-        gamesPromises.push(new Promise(function (resolve, reject) {
-          league.ref.collection('games')
-            .orderBy('playedOn', 'desc')
-            .limit(GAMES_IN_HOME_FEED)
-            .get()
-            .then((subcollection) => {
-              const games = [];
-              subcollection.forEach(function (game) {
-                games.push({
-                  ...{
-                    id: game.id
-                  },
-                  ...game.data()
-                });
-              });
-              resolve(games);
-            });
-        }));
-      });
-
-      // combine the two sets of promises into one
-      // wait for that promise to finish
-      leaguePromises.push(Promise.all(membersPromises).then((results) => {
-        return {
-          members: results
-        };
+    // grab the members subcollection
+    leagues.forEach((league) => {
+      membersPromises.push(new Promise(async (resolve, reject) => {
+        const members = await services.getMembersForLeague(league.id);
+        resolve(members);
       }));
-
-      leaguePromises.push(Promise.all(gamesPromises).then((results) => {
-        return {
-          games: results
-        };
-      }));
-
-      return Promise.all(leaguePromises).then((leagueData) => {
-        const memberData = leagueData[0].members;
-        const gameData = leagueData[1].games;
-        for (var i = 0; i < leagues.length; i++) {
-          const leagueId = leagues[i].id;
-          const currentGames = gameData[i];
-          leagues[i] = leagues[i].data();
-          leagues[i].id = leagueId;
-          leagues[i].members = memberData[i];
-          // add the display names from the members to the game data
-          for (var j = 0; j < currentGames.length; j++) {
-            currentGames[j] = getLeagueUsersForGame(currentGames[j], leagues[i]);
-          }
-          leagues[i].games = currentGames;
-        }
-        return leagues;
-      });
-
-    }).then((results) => {
-      return results;
     });
+
+    // get all of the members for each of the leagues
+    const allMembers = await Promise.all(membersPromises);
+    // attach them to the leagues, members are needed to populate the games member data
+    for (let i = 0; i < leagues.length; i++) {
+      leagues[i].members = allMembers[i];
+    }
+
+
+    // grab the games subcollection
+    leagues.forEach((league) => {
+      gamesPromises.push(new Promise(async (resolve, reject) => {
+        const games = await services.getLeagueGames(league);
+        resolve(games);
+      }));
+    });
+
+    const allGames = await Promise.all(gamesPromises);
+    // attach them to the leagues
+    for (let i = 0; i < leagues.length; i++) {
+      leagues[i].games = allGames[i];
+    }
+
+    return leagues;
+  },
+
+  // leagues = array of league ids
+  // parseRef = return raw data or just reference for subcollections to query
+  getLeaguesForUser: async (leagues, parseRef) => {
+    const fb_leagues = await firestore()
+      .collection('leagues')
+      .where('id', 'in', leagues)
+      .get();
+    let results = [];
+
+    fb_leagues.forEach((doc) => {
+      const league = doc;
+      parseRef === true ? results.push(league.data()) : results.push(league);
+    });
+    return results;
   },
 
   getRecentGames: async (leagueId) => {
@@ -139,18 +107,11 @@ const services = {
           games.push(gameData);
         });
 
-        league.games = games;
-        // save the new league games to the cache
-        Utils.saveLeague(league).then(function () {
-          return games;
-        });
         return games;
       });
   },
   createLeague: async (leaguetype, name) => {
     let currentUser = await Utils.getCurrentUser();
-    console.log(currentUser);
-
     const leagueUser = getEmptyLeagueUser(currentUser);
     const leagueid = uuid();
 
@@ -161,7 +122,7 @@ const services = {
       createdOn: new Date(),
     };
     
-    await addLeagueToUser(currentUser.id, leagueid);
+    await services.addLeagueToUser(currentUser.id, leagueid);
 
     return await createQuery('leagues', leagueid, newLeague, [{
       subcollection: 'members',
@@ -233,7 +194,7 @@ const services = {
     // add league references to user
     var userPromises = [];
     for (var i = 0; i < users.length; i++) {
-      userPromises.push(addLeagueToUser(users[i].id, leagueId));
+      userPromises.push(services.addLeagueToUser(users[i].id, leagueId));
     }
 
     Promise.all(userPromises).then((response) => {
@@ -289,7 +250,7 @@ const services = {
           let memberData = member.data();
           members.push(memberData);
         });
-        console.log(members);
+
         return members;
       });
   },
@@ -313,7 +274,18 @@ const services = {
           return league;
         });
     }
-  }
+  },
+
+  addLeagueToUser: async (userid, leagueid) => {
+    return firestore()
+      .collection('users')
+      .doc(userid)
+      .update({
+        leagues: firebase.firestore.FieldValue.arrayUnion(leagueid)
+      }).then(function () {
+        console.log('league added!');
+      })
+  },
 }
 
 // helper methods
@@ -383,17 +355,6 @@ createQuery = async (collection, id, obj, subcollections) => {
       console.error("Error writing document: ", error);
       return null;
     });
-}
-
-addLeagueToUser = async (userid, leagueid) => {
-  return firestore()
-    .collection('users')
-    .doc(userid)
-    .update({
-      leagues: firebase.firestore.FieldValue.arrayUnion(leagueid)
-    }).then(function () {
-      console.log('league added!');
-    })
 },
 
 module.exports = services;

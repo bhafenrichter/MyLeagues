@@ -7,6 +7,7 @@ import UniversalStyles from './../utils/UniversalStyles';
 
 import LeagueAPI from './../Data/LeaguesAPI';
 import CacheHelper from '../utils/CacheHelper';
+import Utils from './../utils/Utils';
 
 export class LeagueScreen extends Component {
   constructor(props) {
@@ -53,9 +54,10 @@ export class LeagueScreen extends Component {
       refreshedLeague.members = response;
     });
 
-    await LeagueAPI.getLeagueGames(refreshedLeague).then((response) => {
+    await LeagueAPI.getLeagueGames(refreshedLeague, true).then((response) => {
       this.setState({ games: response });
       refreshedLeague.games = response;
+      Utils.saveLeague(refreshedLeague);
     });
 
     let savedLeagues = await CacheHelper.get(CacheHelper.LEAGUES);
