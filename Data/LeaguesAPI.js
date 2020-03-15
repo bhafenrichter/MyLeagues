@@ -286,6 +286,18 @@ const services = {
         console.log('league added!');
       })
   },
+
+  getUserFromLogin: async (firebaseResult) => {
+   // if the user previously existed, retrieve the user
+   let myLeagueUser = await services.getUser(firebaseResult.additionalUserInfo.profile.id);
+   
+   // if user is new, create a new account
+   if (!myLeagueUser.data()) {
+     myLeagueUser = await services.createUser(firebaseResult.additionalUserInfo.profile);
+   }
+
+   return myLeagueUser;
+  }
 }
 
 // helper methods

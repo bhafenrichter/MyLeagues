@@ -1,13 +1,11 @@
 import React, { Component } from 'react'
 import { Text, View, TouchableOpacity, StyleSheet, ImageBackground, Image } from 'react-native'
 
-import { LoginManager, AccessToken } from 'react-native-fbsdk';
-import { firebase } from '@react-native-firebase/auth';
 
 import { withNavigation } from 'react-navigation';
 import LeaguesAPI from './../Data/LeaguesAPI';
-import MyImage from '../components/Common/MyImage';
 import CacheHelper from '../utils/CacheHelper';
+import FacebookAPI from '../Data/FacebookAPI';
 
 export class LoginScreen extends Component {
 // hide the header
@@ -23,38 +21,12 @@ static navigationOptions = ({ navigation }) => {
  async login() {
   const {navigation} = this.props;
 
-  // facebook login
-  const result = await LoginManager.logInWithPermissions(['public_profile', 'email', 'user_friends']);
+  const firebaseResult = await FacebookAPI.login();
 
-  if (result.isCancelled) {
-   console.log('user cancelled login');
-   return;
- }
-
-  // firebase token from the facebook login result
-  const token = await AccessToken.getCurrentAccessToken();
-  
-  if (!token) {
-    console.log('token not received');
-    return;
-  }
-   
-   // get the credentials with the access token
-   const credential = firebase.auth.FacebookAuthProvider.credential(token.accessToken);
-
-   // login to firebase
-   const firebaseResult = await firebase.auth().signInWithCredential(credential);
-
-   // if the user previously existed, retrieve the user
-   let myLeagueUser = await LeaguesAPI.getUser(firebaseResult.additionalUserInfo.profile.id);
-   
-   // if user is new, create a new account
-   if (!myLeagueUser.data()) {
-     myLeagueUser = await LeaguesAPI.createUser(firebaseResult.additionalUserInfo.profile);
-   }
+  const loggedInUser = await LeaguesAPI.getUserFromLogin(firebaseResult);
 
    // keep the user id for later lookups
-   let cachedUser = {...{id: firebaseResult.additionalUserInfo.profile.id}, ...myLeagueUser.data()};
+   let cachedUser = {...{id: firebaseResult.additionalUserInfo.profile.id}, ...loggedInUser.data()};
 
    // set the user in the storage
    await CacheHelper.set(CacheHelper.CURRENTUSER, cachedUser);
