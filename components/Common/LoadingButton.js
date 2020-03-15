@@ -24,17 +24,16 @@ class LoadingButton extends Component {
     style: {},
   };
 
-  onPress = () => {
+  onPress = async () => {
     const {onSubmit, onComplete} = this.props;
     this.setState({
       isLoading: true,
     });
-    onSubmit().then((args) => {
-      this.setState({
-        isLoading: false,
-      });
-      onComplete(args);
+    const result = await onSubmit();
+    this.setState({
+      isLoading: false,
     });
+    onComplete(result);
   }
 
   render() {

@@ -6,7 +6,7 @@ import Utils from './../../utils/Utils';
 
 import StandingsRow from '../Standings/StandingsRow'
 import StandingsHeaderRow from '../Standings/StandingsHeaderRow'
-import PlusButton from "./../Common/PlusButton"
+import LoadingButton from "./../Common/LoadingButton"
 import { FlatList } from 'react-native-gesture-handler'
 
 
@@ -17,7 +17,6 @@ export class Standings extends Component {
       <View style={styles.container}>
         <View style={styles.header}>
           <Text style={styles.headerText}>Standings</Text>
-          <PlusButton onPress={() => {navigation.navigate('AddPlayer', {leagueId: leagueId, members: members})}} />
         </View>
 
         <StandingsHeaderRow name="" wins="W" losses="L" />
@@ -27,6 +26,9 @@ export class Standings extends Component {
           renderItem={({item}) => 
             <StandingsRow name={Utils.getDisplayName(item.firstName, item.lastName)} wins={item.wins} losses={item.losses} profilePicture={item.profilePicture} />} 
           />
+          <View style={{marginTop: 20}}>
+            <LoadingButton title="Add User" onSubmit={() => {navigation.navigate('AddPlayer', {leagueId: leagueId, members: members})}} onComplete={() => {}} />
+          </View>
       </View>
     )
   }
