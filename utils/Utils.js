@@ -20,7 +20,6 @@ export default {
         if (hardRefresh === true) {
           LeagueAPI.getUser(cachedUser.id).then(function(response) {
             let user = {...{id: id}, ...response.data()};
-            console.log(user);
             CacheHelper.set(CacheHelper.CURRENTUSER, user);
             return response;
           });
@@ -33,8 +32,6 @@ export default {
 
   async getCurrentLeagueUser(members) {
     const currentUser = await this.getCurrentUser();
-    console.log(members);
-    console.log(currentUser);
     for (var i = 0; i < members.length; i++) {
       if (members[i].userid === currentUser.id) {
         return members[i];
@@ -44,7 +41,6 @@ export default {
   },
 
   getUserInformation(userid, members) {
-    console.log(members);
     for (var i = 0; i < members.length; i++) {
       const current = members[i];
       if (current.id === userid) {
@@ -67,7 +63,6 @@ export default {
       if (leagues[i].id === league.id) {
         console.log('updating league');
         leagues[i] = league;
-        console.log(leagues[i]);
       }
     }
 

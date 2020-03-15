@@ -15,7 +15,6 @@ const ProfilePicture = (props) => {
     }
   });
   const picStyle = [defaultStyle.default, style];
-
   return (
     <MyImage url={url} style={picStyle} />
   )

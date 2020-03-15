@@ -321,7 +321,7 @@ getEmptyLeagueUser = (user) => {
     ties: 0,
     userid: user.id,
     joinedOn: new Date(),
-    profilePicture: user.picture ? user.picture.data.url : '',
+    profilePicture: user.profilePicture ? user.profilePicture : '',
   };
 }
 
