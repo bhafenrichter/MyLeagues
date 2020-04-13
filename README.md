@@ -24,3 +24,5 @@ MyLeagues takes advantages of the following technologies:
 At the moment, the app is not live on either app store.  Unfortunately, the main issue I ran into post-development was shipping to both iOS and Android.  I only have a Windows computer, so I could only focus on Android.  In the future, I'd love to expand it out further to include many of the features I listed in my trello board.  You can view my progress below:
 
 https://trello.com/b/2HiwpwUg/myleagues
+
+https://www.figma.com/file/qJyGPK3gio7JcZ6uCgkBFx/MyLeagues-V3?node-id=0%3A1
