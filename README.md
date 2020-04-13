@@ -19,3 +19,8 @@ MyLeagues takes advantages of the following technologies:
 2. Google Firebase
 3. Facebook Users
 4. Various React Libraries
+
+## Next Steps
+At the moment, the app is not live on either app store.  Unfortunately, the main issue I ran into post-development was shipping to both iOS and Android.  I only have a Windows computer, so I could only focus on Android.  In the future, I'd love to expand it out further to include many of the features I listed in my trello board.  You can view my progress below:
+
+https://trello.com/b/2HiwpwUg/myleagues
